@@ -1,0 +1,35 @@
+{   
+    "name": "infuse",
+    "description": "Mainline your JavaScript.",
+    "version": "0.0.1",
+    "keywords": [
+        "ast",
+        "inject",
+        "code"
+    ],
+    "main": "./lib/infuse.js",
+    "directories": {
+        "lib": "lib"
+    },
+    "dependencies": {
+        "uglify-js":  ">=1.2.x"
+    },
+    "devDependencies": {
+        "mocha": "0.3.x",
+        "should": "0.5.x"
+    },
+    "scripts": {
+        "test": "mocha"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://github.com/jhamlet/node-infuse/raw/master/LICENSE"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/jhamlet/node-infuse.git"
+    },
+    "preferGlobal": true
+}
