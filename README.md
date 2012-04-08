@@ -30,7 +30,7 @@ Command Line Usage
     [OUPUT_PATH]     file to write to. If not specified, will write to STDOUT.
 
     options:
-       -L PATH, --node-lib PATH                     
+       -L PATH, --node-lib PATH                     PATH to your local library directory of node builtin modules.
        -N, --no-minify                              Do not minify the output.
        -F, --force                                  If OUTPUT_PATH already exists, overwrite it.
        -D SYMBOL[=VALUE], --define SYMBOL[=VALUE]   Replace all instances of the specified SYMBOL with VALUE.

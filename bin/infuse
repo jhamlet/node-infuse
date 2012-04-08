@@ -21,7 +21,8 @@ var infuse      = require("../lib/infuse.js"),
             },
             nodeLibPaths: {
                 string: "-L PATH, --node-lib PATH",
-                list: true
+                list: true,
+                help: "PATH to your local library directory of node builtin modules."
             },
             nominify: {
                 string: "-N, --no-minify",
