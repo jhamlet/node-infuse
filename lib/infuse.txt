@@ -1,0 +1,9 @@
+function infuse (modId) {
+    var mod = infuse._modules[modId];
+    
+    if (typeof mod === "function") {
+        infuse._modules[modId] = (mod = mod());
+    }
+    
+    return mod;
+};

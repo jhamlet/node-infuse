@@ -1,6 +1,6 @@
 {   
     "name": "infuse",
-    "description": "Mainline your JavaScript.",
+    "description": "Mainline your node JavaScript.",
     "version": "0.0.1",
     "keywords": [
         "ast",
@@ -12,7 +12,9 @@
         "lib": "lib"
     },
     "dependencies": {
-        "uglify-js":  ">=1.2.x"
+        "proteus":   ">=0.0.x",
+        "nomnom":    ">=1.5.x",
+        "uglify-js": ">=1.2.x"
     },
     "devDependencies": {
         "mocha": "0.3.x",

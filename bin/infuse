@@ -1,0 +1,178 @@
+#!/usr/bin/env node
+
+var infuse      = require("../lib/infuse.js"),
+    FS          = require("fs"),
+    Path        = require("path"),
+    isArray     = Array.isArray,
+    packagePath = __dirname + "/../package.json",
+    packageInfo = JSON.parse(FS.readFileSync(packagePath, "utf8")),
+    options = require("nomnom").
+        script("infuse").
+        options({
+            infile: {
+                string: "[INPUT_PATH]",
+                position: 0,
+                help: "file to read from. If not specified, will read from STDIN."
+            },
+            outfile: {
+                string: "[OUPUT_PATH]",
+                position: 1,
+                help: "file to write to. If not specified, will write to STDOUT."
+            },
+            nodeLibPaths: {
+                string: "-L PATH, --node-lib PATH",
+                list: true
+            },
+            nominify: {
+                string: "-N, --no-minify",
+                flag: true,
+                help: "Do not minify the output."
+            },
+            force: {
+                string: "-F, --force",
+                flag: true,
+                help: "If OUTPUT_PATH already exists, overwrite it."
+            },
+            definitions: {
+                string: "-D SYMBOL[=VALUE], --define SYMBOL[=VALUE]",
+                help: "Replace all instances of the specified SYMBOL with VALUE.",
+                list: true
+            },
+            definitionsModule: {
+                string: "-d, --definition-module NAME",
+                help: "Will load the NAMEd module (as per require()) and 'define' all exported properties.",
+                list: true
+            },
+            reserved: {
+                string: "-R WORD, --reserved WORD",
+                help: "A comma-delimited list of reserved words that should NOT be mangled.",
+                list: true
+            },
+            version: {
+                string: "-V, --version",
+                help: "Print the version information and exit.",
+                flag: true,
+                callback: function () {
+                    return "version " + packageInfo.version;
+                }
+            },
+            help: {
+                string: "-h, --help",
+                help: "Print this.",
+                flag: true
+            }
+        }).
+        parse(),
+    input       = "",
+    outputFile  = options.outfile,
+    inputFile   = options.infile,
+    defModule   = options.definitionsModule,
+    defs        = options.definitions,
+    inStream,
+    outStream,
+    definitions,
+    reserved
+;
+
+//---------------------------------------------------------------------------
+// Main
+//---------------------------------------------------------------------------
+if (defModule || defs) {
+    definitions = {};
+    
+    if (defModule) {
+        defModule = isArray(defModule) ? defModule : [defModule];
+        defModule.forEach(function (name) {
+            var mod = require(name);
+            Object.keys(mod).forEach(function (k) {
+                definitions[k] = mod[k];
+            });
+        });
+    }
+
+    if (defs) {
+        defs = isArray(defs) ? defs : [defs];
+        defs.forEach(function (def) {
+            var delimIdx = def.indexOf("="),
+                key, val
+            ;
+            
+            if (~delimIdx) {
+                key = def.slice(0, delimIdx);
+                val = def.slice(delimIdx+1);
+                try {
+                    val = JSON.parse(val);
+                }
+                catch (e) {
+                    // ignore...
+                    // console.log("Could not parse '" + key + "'. " + e);
+                }
+            }
+            else {
+                key = def;
+                val = true;
+            }
+            
+            // console.log(key + " = " + val + " (" + (typeof val) + ")");
+            
+            definitions[key] = val;
+        });
+    }
+}
+
+if (options.reserved) {
+    reserved = options.reserved.reduce(function (t, c) {
+        t.push.apply(t, c.split(","));
+        return t;
+    }, []);
+}
+
+try {
+    if (!outputFile && inputFile) {
+        outputFile = inputFile;
+        inputFile = null;
+    }
+
+    if (inputFile && !Path.existsSync(inputFile)) {
+        throw "Can not read from '" + inputFile + "'. File does not exist.";
+    }
+
+    if (inputFile) {
+        inStream = FS.createReadStream(inputFile, {encoding: "utf8"});
+    }
+    else {
+        inStream = process.stdin;
+        inStream.setEncoding("utf8");
+    }
+
+    if (outputFile) {
+        if (Path.existsSync(outputFile) && !options.force) {
+            throw "Can not write to '" + outputFile + "'. File already exists. " +
+                "Use -F, --force to overwrite.";
+        }
+
+        outStream = FS.createWriteStream(outputFile, {encoding: "utf8"});
+    }
+    else {
+        outStream = process.stdout;
+        outStream.setEncoding("utf8");
+    }
+
+    inStream.on("data", function (txt) {
+        input += txt;
+    });
+
+    inStream.on("end", function () {
+        outStream.write(infuse(input, {
+            definitions: definitions || null,
+            reserved: reserved || null,
+            nominify: options.nominify,
+            nodeLibPaths: options.nodeLibPaths || null
+        }), "utf8");
+    });
+
+    inStream.resume();
+}
+catch (e) {
+    console.log("infuse ERROR: " + e);
+}

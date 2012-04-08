@@ -4,7 +4,7 @@ var should  = require("should"),
     SysUtil = require("util"),
     uglylib = require("uglify-js"),
     jsp     = uglylib.parser,
-    Iterator = require("../lib/iterator").DFIterator
+    Iterator = require("../lib/iterator")
 ;
 
 suite("Iterator", function () {
