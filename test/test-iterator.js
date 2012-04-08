@@ -28,20 +28,18 @@ suite("Iterator", function () {
     });
     
     test("#next, #skipTo", function () {
-        iterator.start();
-        iterator.getCurrent()[0].should.equal("toplevel");
+        iterator.getCurrent().name.should.equal("toplevel");
         iterator.next().next().next();
-        iterator.getCurrent()[0].should.equal("call");
+        iterator.getCurrent().name.should.equal("call");
         iterator.skipTo("assign");
         should.exist(iterator.getCurrent());
         iterator.getCurrent()[1].should.equal(true);
     });
     
     test("#skipTo, #rewindTo", function () {
-        iterator.start();
         iterator.skipTo("stat").skipTo("stat");
-        iterator.getCurrent()[0].should.equal("stat");
+        iterator.getCurrent().name.should.equal("stat");
         iterator.rewindTo("var");
-        iterator.getCurrent()[0].should.equal("var");
+        iterator.getCurrent().name.should.equal("var");
     });
 });
