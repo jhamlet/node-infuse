@@ -24,10 +24,10 @@ Command Line Usage
     % infuse -h
     
     usage: infuse [INPUT_PATH] [OUPUT_PATH] [options]
-    
+
     [INPUT_PATH]     File to read. If not specified, read from STDIN.
     [OUPUT_PATH]     File to write. If not specified, write to STDOUT.
-    
+
     options:
        -L, --node-lib PATH           PATH to your local library directory of node builtin modules.
        -N, --no-minify               Do not minify the output.
@@ -37,17 +37,17 @@ Command Line Usage
        -R, --reserved WORD           A comma-delimited list of reserved words that should NOT be mangled.
        -V, --version                 Print the version information and exit.
        -h, --help                    Print this.
-   
+
     NOTE ON RETURN VALUES FROM --define's: 
        Currently in UglifyJS, the return value of defines have to be in the 
-       form of the AST. i.e: ["num", "9"].
-       
-       Value references:
+       form of the AST. i.e: ["num", 9].
+
+       AST value references:
                 true: ["name", "true"]
                false: ["name", "false"]
            undefined: ["name", "undefined"]
               string: ["string", "foo"]
-              number: ["num", "9"]
+              number: ["num", 9]
 
 
 Dependencies
