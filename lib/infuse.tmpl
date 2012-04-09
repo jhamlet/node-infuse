@@ -1,0 +1,26 @@
+(function () {
+
+    function infuse (modId) {
+        var mod = infuse._modules[modId],
+            _exported = infuse._exported || (infuse._exported = []),
+            exported = _exported[modId]
+        ;
+
+        if (!exported && typeof mod === "function") {
+            infuse._modules[modId] = (mod = mod());
+            _exported[modId] = true;
+        }
+
+        return mod;
+    };
+    
+    $modules$
+}());
+// --- split ---
+(function () {
+    var module  = { exports: {} };
+        
+    $code$
+    
+    return module.exports;
+}());

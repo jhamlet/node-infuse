@@ -80,7 +80,8 @@ var infuse      = require("../lib/infuse.js"),
 //---------------------------------------------------------------------------
 if (defModule || defs) {
     definitions = {};
-    
+
+    // Require any definition modules
     if (defModule) {
         defModule = isArray(defModule) ? defModule : [defModule];
         defModule.forEach(function (name) {
@@ -91,6 +92,7 @@ if (defModule || defs) {
         });
     }
 
+    // Individual definitions
     if (defs) {
         defs = isArray(defs) ? defs : [defs];
         defs.forEach(function (def) {
@@ -121,6 +123,7 @@ if (defModule || defs) {
     }
 }
 
+// Collect reserved words
 if (options.reserved) {
     reserved = options.reserved.reduce(function (t, c) {
         t.push.apply(t, c.split(","));
@@ -175,5 +178,8 @@ try {
     inStream.resume();
 }
 catch (e) {
-    console.log("infuse ERROR: " + e);
+    process.stderr.write("ERROR: " + (e.msg || e) + "\n");
+    if (e.stack) {
+        process.stderr.write(e.stack.join("\n") + "\n");
+    }
 }
