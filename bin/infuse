@@ -6,63 +6,75 @@ var infuse      = require("../lib/infuse.js"),
     isArray     = Array.isArray,
     packagePath = __dirname + "/../package.json",
     packageInfo = JSON.parse(FS.readFileSync(packagePath, "utf8")),
+    pad         = Array(4).join(" "),
+    opts        = {
+        infile: {
+            string: "[INPUT_PATH]",
+            position: 0,
+            help: "File to read. If not specified, read from STDIN."
+        },
+        outfile: {
+            string: "[OUPUT_PATH]",
+            position: 1,
+            help: "File to write. If not specified, write to STDOUT."
+        },
+        nodeLibPaths: {
+            string: "-L, --node-lib PATH",
+            list: true,
+            help: "PATH to your local library directory of node builtin modules."
+        },
+        nominify: {
+            string: "-N, --no-minify",
+            flag: true,
+            help: "Do not minify the output."
+        },
+        force: {
+            string: "-F, --force",
+            flag: true,
+            help: "If OUTPUT_PATH already exists, overwrite it."
+        },
+        definitions: {
+            string: "-D, --define SYMBOL[=VALUE]",
+            help: "Replace all instances of the specified SYMBOL with VALUE.",
+            list: true
+        },
+        definitionsModule: {
+            string: "-d, --define-module NAME",
+            help: "Will load the NAMEd module (as per require()) and 'define' all exported properties.",
+            list: true
+        },
+        reserved: {
+            string: "-R, --reserved WORD",
+            help: "A comma-delimited list of reserved words that should NOT be mangled.",
+            list: true
+        },
+        version: {
+            string: "-V, --version",
+            help: "Print the version information and exit.",
+            flag: true,
+            callback: function () {
+                return "version " + packageInfo.version;
+            }
+        },
+        help: {
+            string: "-h, --help",
+            help: "Print this.",
+            flag: true
+        }
+    },
     options = require("nomnom").
         script("infuse").
-        options({
-            infile: {
-                string: "[INPUT_PATH]",
-                position: 0,
-                help: "File to read. If not specified, read from STDIN."
-            },
-            outfile: {
-                string: "[OUPUT_PATH]",
-                position: 1,
-                help: "File to write. If not specified, write to STDOUT."
-            },
-            nodeLibPaths: {
-                string: "-L, --node-lib PATH",
-                list: true,
-                help: "PATH to your local library directory of node builtin modules."
-            },
-            nominify: {
-                string: "-N, --no-minify",
-                flag: true,
-                help: "Do not minify the output."
-            },
-            force: {
-                string: "-F, --force",
-                flag: true,
-                help: "If OUTPUT_PATH already exists, overwrite it."
-            },
-            definitions: {
-                string: "-D, --define SYMBOL[=VALUE]",
-                help: "Replace all instances of the specified SYMBOL with VALUE.",
-                list: true
-            },
-            definitionsModule: {
-                string: "-d, --define-module NAME",
-                help: "Will load the NAMEd module (as per require()) and 'define' all exported properties.",
-                list: true
-            },
-            reserved: {
-                string: "-R, --reserved WORD",
-                help: "A comma-delimited list of reserved words that should NOT be mangled.",
-                list: true
-            },
-            version: {
-                string: "-V, --version",
-                help: "Print the version information and exit.",
-                flag: true,
-                callback: function () {
-                    return "version " + packageInfo.version;
-                }
-            },
-            help: {
-                string: "-h, --help",
-                help: "Print this.",
-                flag: true
-            }
-        }).
+        options(opts).
+        help(["NOTE ON RETURN VALUES FROM --define's: ",
+            pad + "Currently in UglifyJS, the return value of defines have to be in the ",
+            pad + "form of the AST. i.e: [\"num\", \"9\"].\n",
+            pad + "Value references:",
+            pad + "         true: [\"name\", \"true\"]",
+            pad + "        false: [\"name\", \"false\"]",
+            pad + "    undefined: [\"name\", \"undefined\"]",
+            pad + "       string: [\"string\", \"foo\"]",
+            pad + "       number: [\"num\", \"9\"]"
+        ].join("\n")).
         parse(),
     input       = "",
     outputFile  = options.outfile,
@@ -72,7 +84,8 @@ var infuse      = require("../lib/infuse.js"),
     inStream,
     outStream,
     definitions,
-    reserved
+    reserved,
+    cwd = process.cwd()
 ;
 
 //---------------------------------------------------------------------------
@@ -85,7 +98,11 @@ if (defModule || defs) {
     if (defModule) {
         defModule = isArray(defModule) ? defModule : [defModule];
         defModule.forEach(function (name) {
-            var mod = require(name);
+            var mod;
+            name = name.indexOf(".") === 0 ?
+                Path.join(cwd, name) :
+                name;
+            mod = require(name);
             Object.keys(mod).forEach(function (k) {
                 definitions[k] = mod[k];
             });
