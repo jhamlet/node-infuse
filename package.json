@@ -5,9 +5,15 @@
     "keywords": [
         "ast",
         "inject",
-        "code"
+        "code",
+        "minimizer",
+        "obfuscate",
+        "pre-processor"
     ],
     "main": "./lib/infuse.js",
+    "bin": {
+        "infuse": "./bin/infuse"
+    },
     "directories": {
         "lib": "lib"
     },
