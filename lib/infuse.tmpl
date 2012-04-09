@@ -1,24 +1,23 @@
 (function () {
-
-    function infuse (modId) {
-        var mod = infuse._modules[modId],
-            _exported = infuse._exported || (infuse._exported = []),
-            exported = _exported[modId]
+    __infuse__ = function (modId) {
+        var mod       = __infuse__._modules[modId],
+            _exported = __infuse__._exported || (__infuse__._exported = []),
+            exported  = _exported[modId]
         ;
 
         if (!exported && typeof mod === "function") {
-            infuse._modules[modId] = (mod = mod());
+            __infuse__._modules[modId] = (mod = mod());
             _exported[modId] = true;
         }
 
         return mod;
     };
     
-    infuse._modules = {$modules$};
+    __infuse__._modules = {$modules$};
 }());
 // --- split ---
 "$key$": function () {
-    var module  = { exports: {} };
+    var module  = { exports: {} }, exports = module.exports;
     $code$
     return module.exports;
 }

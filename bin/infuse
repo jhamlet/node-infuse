@@ -12,15 +12,15 @@ var infuse      = require("../lib/infuse.js"),
             infile: {
                 string: "[INPUT_PATH]",
                 position: 0,
-                help: "file to read from. If not specified, will read from STDIN."
+                help: "File to read. If not specified, read from STDIN."
             },
             outfile: {
                 string: "[OUPUT_PATH]",
                 position: 1,
-                help: "file to write to. If not specified, will write to STDOUT."
+                help: "File to write. If not specified, write to STDOUT."
             },
             nodeLibPaths: {
-                string: "-L PATH, --node-lib PATH",
+                string: "-L, --node-lib PATH",
                 list: true,
                 help: "PATH to your local library directory of node builtin modules."
             },
@@ -35,17 +35,17 @@ var infuse      = require("../lib/infuse.js"),
                 help: "If OUTPUT_PATH already exists, overwrite it."
             },
             definitions: {
-                string: "-D SYMBOL[=VALUE], --define SYMBOL[=VALUE]",
+                string: "-D, --define SYMBOL[=VALUE]",
                 help: "Replace all instances of the specified SYMBOL with VALUE.",
                 list: true
             },
             definitionsModule: {
-                string: "-d, --definition-module NAME",
+                string: "-d, --define-module NAME",
                 help: "Will load the NAMEd module (as per require()) and 'define' all exported properties.",
                 list: true
             },
             reserved: {
-                string: "-R WORD, --reserved WORD",
+                string: "-R, --reserved WORD",
                 help: "A comma-delimited list of reserved words that should NOT be mangled.",
                 list: true
             },
