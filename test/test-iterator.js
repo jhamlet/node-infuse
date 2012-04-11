@@ -18,28 +18,52 @@ suite("Iterator", function () {
             "}(module.exports));"
         ].join("\n"),
         ast = jsp.parse(code, true, false),
-        iterator
+        iter
     ;
     
     // console.log(SysUtil.inspect(ast, false, 100));
     
     setup(function () {
-        iterator = new Iterator(ast);
+        iter = new Iterator(ast);
     });
     
     test("#next, #skipTo", function () {
-        iterator.getCurrent().name.should.equal("toplevel");
-        iterator.next().next().next();
-        iterator.getCurrent().name.should.equal("call");
-        iterator.skipTo("assign");
-        should.exist(iterator.getCurrent());
-        iterator.getCurrent()[1].should.equal(true);
+        iter.getCurrent().name.should.equal("toplevel");
+        iter.next().next().next();
+        iter.getCurrent().name.should.equal("call");
+        iter.skipTo("assign");
+        should.exist(iter.getCurrent());
+        iter.getCurrent()[1].should.equal(true);
     });
     
     test("#skipTo, #rewindTo", function () {
-        iterator.skipTo("stat").skipTo("stat");
-        iterator.getCurrent().name.should.equal("stat");
-        iterator.rewindTo("var");
-        iterator.getCurrent().name.should.equal("var");
+        iter.skipTo("stat").skipTo("stat");
+        iter.getCurrent().name.should.equal("stat");
+        iter.rewindTo("var");
+        iter.getCurrent().name.should.equal("var");
+    });
+    
+    test("Iterator.contains", function () {
+        var parent, child;
+        
+        iter.skipTo("var");
+        parent = iter.getCurrent();
+        
+        iter.skipTo("b");
+        child = iter.getCurrent();
+        
+        Iterator.contains(parent, child).should.equal(true);
+        
+        iter.skipTo("assign");
+        child = iter.getCurrent();
+
+        Iterator.contains(parent, child).should.equal(false);
+    });
+    
+    test("#getParent", function () {
+        iter.skipTo("b");
+        iter.getCurrent().name.should.equal("b");
+        
+        iter.getParent(iter.getCurrent()).name.should.equal("var");
     });
 });
