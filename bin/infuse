@@ -62,21 +62,9 @@ var infuse      = require("../lib/infuse.js"),
             flag: true
         }
     },
-    scriptHelpTxt = ["NOTE ON RETURN VALUES FROM --define's: ",
-        "Currently in UglifyJS, the return value of defines have to be in the ",
-        "form of the AST. i.e: [\"num\", 9].",
-        "",
-        "AST value references:",
-        "         true: [\"name\", \"true\"]",
-        "        false: [\"name\", \"false\"]",
-        "    undefined: [\"name\", \"undefined\"]",
-        "       string: [\"string\", \"foo\"]",
-        "       number: [\"num\", 9]"
-    ].reduce(function (t, c, i) { return (t + (i > 0 ? pad : "") + c + "\n"); }, ""),
     options = require("nomnom").
         script("infuse").
         options(opts).
-        help(scriptHelpTxt).
         parse(),
     input       = "",
     outputFile  = options.outfile,

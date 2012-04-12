@@ -19,10 +19,13 @@ MyClass = function () {
 }
 
 MyClass.prototype = {
+    foo: function () {
+        return "Foo";
+    },
     env: MAKE_SPECIAL_METHOD(ENVIRONMENT),
-            buildOs: EXEC(function () {
-                return require("os").hostname;
-            })
+    buildOs: EXEC(function () {
+        return typeof os !== "undefined" ? os.hostname : false;
+    })
 };
 
 var obj = new MyClass();

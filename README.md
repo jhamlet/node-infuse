@@ -38,17 +38,6 @@ Command Line Usage
        -V, --version                 Print the version information and exit.
        -h, --help                    Print this.
 
-    NOTE ON RETURN VALUES FROM --define's: 
-       Currently in UglifyJS, the return value of defines have to be in the 
-       form of the AST. i.e: ["num", 9].
-
-       AST value references:
-                true: ["name", "true"]
-               false: ["name", "false"]
-           undefined: ["name", "undefined"]
-              string: ["string", "foo"]
-              number: ["num", 9]
-
 
 Dependencies
 ------------
@@ -57,6 +46,31 @@ Dependencies
     nomnom     >= 1.5.x
     proteus    >= 0.0.x
 
+
+Defines
+-------
+
+**Infuse** 
+
+~~~js
+var astUtil = require("infuse").astUtil,
+    myObj = {
+        foo: "foo",
+        baz: function (arg) {
+            return "baz: " + arg;
+        }
+    };
+
+astUtil.valueToAst(myObj);
+// [ 'object',
+//   [ [ 'foo', [ 'string', 'foo' ] ],
+//     [ 'baz',
+//       [ 'function',
+//         null,
+//         [ 'arg' ],
+//         [ [ 'return',
+//             [ 'binary', '+', [ 'string', 'baz: ' ], [ 'name', 'arg' ] ] ] ] ] ] ] ]
+~~~
 
 More?
 -----
