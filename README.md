@@ -50,8 +50,6 @@ Dependencies
 Defines
 -------
 
-**Infuse** 
-
 ~~~js
 var astUtil = require("infuse").astUtil,
     myObj = {
@@ -59,9 +57,12 @@ var astUtil = require("infuse").astUtil,
         baz: function (arg) {
             return "baz: " + arg;
         }
-    };
+    },
+    ast,
+    value
+;
 
-astUtil.valueToAst(myObj);
+ast = astUtil.valueToAst(myObj);
 // [ 'object',
 //   [ [ 'foo', [ 'string', 'foo' ] ],
 //     [ 'baz',
@@ -70,6 +71,14 @@ astUtil.valueToAst(myObj);
 //         [ 'arg' ],
 //         [ [ 'return',
 //             [ 'binary', '+', [ 'string', 'baz: ' ], [ 'name', 'arg' ] ] ] ] ] ] ] ]
+
+value = astUtil.astToValue(ast);
+// {
+//     foo: "foo",
+//     baz: function (arg) {
+//         return "baz: " + arg;
+//     }
+// }
 ~~~
 
 More?
