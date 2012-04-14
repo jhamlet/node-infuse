@@ -1,19 +1,42 @@
 (function () {
-    __infuse__ = function (modId) {
-        var mod       = __infuse__._modules[modId],
-            _exported = __infuse__._exported || (__infuse__._exported = []),
-            exported  = _exported[modId]
+    var doc = typeof document !== "undefined" ? document : false,
+        hdr = doc && doc.getElementsByTagName("head")[0]
+    ;
+    
+    __infuse__ = function (modId, callback) {
+        var $_       = __infuse__,
+            mod      = $_.modules[modId],
+            exports  = $_.exported || ($_.exported = []),
+            exported = exports[modId],
+            node, src
         ;
 
-        if (!exported && typeof mod === "function") {
-            __infuse__._modules[modId] = (mod = mod());
-            _exported[modId] = true;
+        if (exported) {
+            return mod;
+        }
+        
+        if (typeof mod === "function") {
+            $_.modules[modId] = (mod = mod());
+        }
+        else if (typeof mod === "string" && doc) {
+            hdr = doc.getElementsByTagName("head")[0];
+            node = doc.createElement("script");
+            node.innerHTML = "__infuse__.$m = (function(){\n" +
+                "var module = { exports: {} }, exports = module.exports;\n" +
+                mod + "\n" +
+                "return module.exports;\n" +
+                "}());";
+            hdr.appendChild(node);
+            $_.modules[modId] = mod = __infuse__.$m;
+            delete __infuse__.$m;
+            hdr.removeChild(node);
         }
 
+        exports[modId] = true;
         return mod;
     };
     
-    __infuse__._modules = {$modules$};
+    __infuse__.modules = {$modules$};
 }());
 // --- split ---
 "$key$": function () {
@@ -21,3 +44,5 @@
     $code$
     return module.exports;
 }
+// --- split ---
+"$key": "$code$"
