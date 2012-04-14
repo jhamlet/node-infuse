@@ -52,7 +52,11 @@ Defines
 
 **infuse** now processes all `defines` itself, and the values returned from `defines` are translated into the appropriate AST structure. No need for your `define/define-module` to return an AST formatted array.
 
+By having **infuse** handle the `defines` in the pre-mangled/squeezed AST, if you supply the `--no-minify` flag to **infuse** you can see the _beautified_ _uglifyjs_ generated output without any dead-code being removed (this is helpful when reviewing what your defines are returning/generating).
+
 More?
 -----
 
 Future plans are to have **infuse** allow you to post-process your JavaScript and manipulate the underlying _Abstract Syntax Tree_. This will allow _macros_, _replacements_, and more...
+
+
