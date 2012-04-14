@@ -50,7 +50,7 @@ Dependencies
 Defines
 -------
 
-**infuse** now processes all `defines` itself, and the values returned from `defines` are translated into the appropriate AST structure. No need to for your `define/define-module` to return an AST formatted array.
+**infuse** now processes all `defines` itself, and the values returned from `defines` are translated into the appropriate AST structure. No need for your `define/define-module` to return an AST formatted array.
 
 More?
 -----
