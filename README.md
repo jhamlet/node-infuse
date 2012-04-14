@@ -50,36 +50,7 @@ Dependencies
 Defines
 -------
 
-~~~js
-var astUtil = require("infuse").astUtil,
-    myObj = {
-        foo: "foo",
-        baz: function (arg) {
-            return "baz: " + arg;
-        }
-    },
-    ast,
-    value
-;
-
-ast = astUtil.valueToAst(myObj);
-// [ 'object',
-//   [ [ 'foo', [ 'string', 'foo' ] ],
-//     [ 'baz',
-//       [ 'function',
-//         null,
-//         [ 'arg' ],
-//         [ [ 'return',
-//             [ 'binary', '+', [ 'string', 'baz: ' ], [ 'name', 'arg' ] ] ] ] ] ] ] ]
-
-value = astUtil.astToValue(ast);
-// {
-//     foo: "foo",
-//     baz: function (arg) {
-//         return "baz: " + arg;
-//     }
-// }
-~~~
+**infuse** now processes all `defines` itself, and the values returned from `defines` are translated into the appropriate AST structure. No need to for your `define/define-module` to return an AST formatted array.
 
 More?
 -----
