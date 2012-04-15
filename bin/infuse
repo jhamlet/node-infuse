@@ -43,6 +43,11 @@ var infuse      = require("../lib/infuse.js"),
             help: "Will load the NAMEd module (as per require()) and 'define' all exported properties.",
             list: true
         },
+        embed: {
+            string: "-E, --embed",
+            help: "Embed the infused modules as strings and lazy-evaluate them when required.",
+            flag: true
+        },
         reserved: {
             string: "-R, --reserved WORD",
             help: "A comma-delimited list of reserved words that should NOT be mangled.",
@@ -178,6 +183,7 @@ try {
             definitions: definitions || null,
             reserved: reserved || null,
             nominify: options.nominify,
+            embed: options.embed,
             nodeLibPaths: options.nodeLibPaths || null
         }), "utf8");
     });
