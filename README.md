@@ -23,6 +23,7 @@ Command Line Usage
 
     % infuse -h
     
+
     usage: infuse [INPUT_PATH] [OUPUT_PATH] [options]
 
     [INPUT_PATH]     File to read. If not specified, read from STDIN.
@@ -34,6 +35,7 @@ Command Line Usage
        -F, --force                   If OUTPUT_PATH already exists, overwrite it.
        -D, --define SYMBOL[=VALUE]   Replace all instances of the specified SYMBOL with VALUE.
        -d, --define-module NAME      Will load the NAMEd module (as per require()) and 'define' all exported properties.
+       -E, --embed                   Embed the infused modules as strings and lazy-evaluate them when required.
        -R, --reserved WORD           A comma-delimited list of reserved words that should NOT be mangled.
        -V, --version                 Print the version information and exit.
        -h, --help                    Print this.
@@ -44,6 +46,7 @@ Dependencies
 
     uglify-js  >= 1.2.x
     nomnom     >= 1.5.x
+    underscore >= 1.3.x
     proteus    >= 0.0.x
 
 
@@ -52,7 +55,15 @@ Defines
 
 **infuse** now processes all `defines` itself, and the values returned from `defines` are translated into the appropriate AST structure. No need for your `define/define-module` to return an AST formatted array.
 
-By having **infuse** handle the `defines` in the pre-mangled/squeezed AST, if you supply the `--no-minify` flag to **infuse** you can see the _beautified_ _uglifyjs_ generated output without any dead-code being removed (this is helpful when reviewing what your defines are returning/generating).
+By having **infuse** handle the `defines` in the pre-mangled/squeezed AST, if you supply the `--no-minify` flag to **infuse** you can see the _beautified_ `uglify-js` generated output without any dead-code being removed (this is helpful when reviewing what your defines are returning/generating).
+
+
+Ebedding (Experimental)
+-----------------------
+
+The **infuse** `-E, --embed` option will _infuse_ required modules as `strings` and lazy-evaluate them when used in the final script. In the case of a browser, this means appending a script element to the `head` of the document temporarily. In other cases, **infuse** goes to the _dark side_ and uses `eval`.
+
+> This functionality is currently **experimental** due to the difficulty of properly escaping the inner quotes of stringified code. i.e: the `underscore` module doesn't escape properly (which is strange, since **infuse** is using `underscore`'s own template function for it's embedding).
 
 More?
 -----
