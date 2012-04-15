@@ -1,5 +1,5 @@
 
-var _ = require("underscore"),
+var rx       = require("rx"),
     Iterator = require("../lib/iterator.js"),
     iter     = new Iterator(),
     title    = STRINGS(TITLE_KEY),
@@ -11,8 +11,6 @@ var _ = require("underscore"),
 if (ENVIRONMENT === "dev") {
     console.log("Development environment");
 }
-
-console.log(_.map([1, 2, 3], function (i) { return Math.pow(i, 2); }));
 
 MyClass = function () {
     
