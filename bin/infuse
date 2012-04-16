@@ -4,7 +4,7 @@ var infuse      = require("../lib/infuse.js"),
     FS          = require("fs"),
     Path        = require("path"),
     isArray     = Array.isArray,
-    packagePath = __dirname + "/../package.json",
+    packagePath = Path.join(__dirname, "..", "package.json"),
     packageInfo = JSON.parse(FS.readFileSync(packagePath, "utf8")),
     pad         = Array(4).join(" "),
     opts        = {
@@ -179,12 +179,12 @@ try {
     });
 
     inStream.on("end", function () {
-        outStream.write(infuse(input, {
+        outStream.write(infuse(inputFile, {
             definitions: definitions || null,
-            reserved: reserved || null,
-            nominify: options.nominify,
-            embed: options.embed,
-            nodeLibPaths: options.nodeLibPaths || null
+            reserved:    reserved || null,
+            embed:       options.embed,
+            libPaths:    options.nodeLibPaths || null,
+            nominify:    options.nominify
         }), "utf8");
     });
 

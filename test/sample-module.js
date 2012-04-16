@@ -1,17 +1,4 @@
-var values = {
-        "object": {
-            foo: "foo",
-            baz: 99
-        },
-        "array": [
-            1, "2", NaN
-        ],
-        "number": 9,
-        "boolean": true,
-        "string": "string",
-        "undefined": undefined
-    },
-    STRINGS = {
+var STRINGS = {
         "UI.STRING.TITLE": "The title",
         "UI.STRING.SUB-TITLE": "The sub-title"
     },
