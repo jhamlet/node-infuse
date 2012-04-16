@@ -1,6 +1,5 @@
 
-var rx       = require("rx"),
-    Iterator = require("../lib/iterator.js"),
+var Iterator = require("../lib/iterator.js"),
     iter     = new Iterator(),
     title    = STRINGS(TITLE_KEY),
     subtitle = STRINGS("UI.STRING.SUB-TITLE"),
@@ -11,6 +10,8 @@ var rx       = require("rx"),
 if (ENVIRONMENT === "dev") {
     console.log("Development environment");
 }
+
+// console.log(_.map([1, 2, 3], function (i) { return Math.pow(i, 2); }));
 
 MyClass = function () {
     
