@@ -23,12 +23,11 @@ Command Line Usage
 
     % infuse -h
     
-
     usage: infuse [INPUT_PATH] [OUPUT_PATH] [options]
-
+    
     [INPUT_PATH]     File to read. If not specified, read from STDIN.
     [OUPUT_PATH]     File to write. If not specified, write to STDOUT.
-
+    
     options:
        -L, --node-lib PATH           PATH to your local library directory of node builtin modules.
        -N, --no-minify               Do not minify the output.
