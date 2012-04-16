@@ -1,0 +1,34 @@
+/*globals FileList, CLEAN, Task, task, file, sh */
+
+var samplePreqs = ["test/sample-src.js", "./test/sample-module.js"];
+
+function infuse (to, nominify, embed) {
+    var cmd = "infuse " + samplePreqs[0] + " " + to;
+    
+    cmd += " -d" + samplePreqs[1];
+    
+    cmd += (nominify ? " -N" : "");
+    cmd += (embed ? " -E" : "");
+    
+    file(to, samplePreqs, function (t) {
+        cmd += (t.exists ? " -F" : "");
+        sh(cmd, function () { Task.clearAsync(); });
+    });
+}
+
+CLEAN.include("sample*.js");
+
+infuse("sample.min.js");
+infuse("sample.js", true);
+infuse("sample.embed.min.js", false, true);
+infuse("sample.embed.js", true, true);
+
+
+task("samples", [
+    "sample.js",
+    "sample.min.js",
+    "sample.embed.js",
+    "sample.embed.min.js"
+]);
+
+task("default", ["samples"]);
