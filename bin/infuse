@@ -60,7 +60,7 @@ var infuse      = require("../lib/infuse.js"),
         },
         watchFile: {
             string: "-w, --watch",
-            help: "Watch INPUT_FILE. Whenever it is modified, re-infuse with the same command",
+            help: "Watch INPUT_FILE. Whenever it is modified, re-infuse with the same command.",
             flag: true
         },
         dumpAst: {

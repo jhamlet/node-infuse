@@ -37,6 +37,7 @@ Command Line Usage
        -E, --embed                   Embed the infused modules as strings and lazy-evaluate them when required.
        -R, --reserved WORD           A comma-delimited list of reserved words that should NOT be mangled.
        -S, --stdin                   Read INPUT_FILE from STDIN instead of a file. Base directory for resolving requires will be considered the current working directory.
+       -w, --watch                   Watch INPUT_FILE. Whenever it is modified, re-infuse with the same command.
        -A, --dump-ast                Dump out the generated Abstract Syntax Tree.
        -V, --version                 Print the version information and exit.
        -h, --help                    Print this.
