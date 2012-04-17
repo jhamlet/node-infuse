@@ -36,7 +36,7 @@ Command Line Usage
        -d, --define-module NAME      Will load the NAMEd module (as per require()) and 'define' all exported properties.
        -E, --embed                   Embed the infused modules as strings and lazy-evaluate them when required.
        -R, --reserved WORD           A comma-delimited list of reserved words that should NOT be mangled.
-       -S, --stdin                   Read INPUT_FILE from STDIN instead of a file. Base directory for resolving requires will be considered the current working directory.
+       -S, --stdin                   Read INPUT_FILE from STDIN instead of a file. The current working directory will be considerd the base directory for resolving requires.
        -w, --watch                   Watch INPUT_FILE. Whenever it is modified, re-infuse with the same command.
        -A, --dump-ast                Dump out the generated Abstract Syntax Tree.
        -V, --version                 Print the version information and exit.
@@ -67,9 +67,11 @@ The **infuse** `-E, --embed` option will _infuse_ required modules as `strings` 
 
 > This functionality is currently **experimental** due to the difficulty of properly escaping the inner quotes of stringified code. i.e: the `underscore` module doesn't escape properly (which is strange, since **infuse** is using `underscore`'s own template function for it's embedding).
 
+The **advantage** of embedding is that the required JavaScript modules are not evaluated until the strings are put into a script node, or `eval`'d, when needed. This facilitates faster loading of the _infused_ JavaScript file, since it is, mostly, one large string.
+
+
 More?
 -----
 
 Future plans are to have **infuse** allow you to post-process your JavaScript and manipulate the underlying _Abstract Syntax Tree_. This will allow _macros_, _replacements_, and more...
-
 

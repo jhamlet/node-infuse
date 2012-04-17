@@ -1,27 +1,27 @@
 /*globals FileList, CLEAN, Task, task, file, sh */
 
-var samplePreqs = ["test/sample-src.js", "./test/sample-module.js"];
+var prereqs = ["test/sample-src.js", "./test/sample-module.js"];
 
-function infuse (to, nominify, embed) {
-    var cmd = "infuse " + samplePreqs[0] + " " + to;
+function infuseTask (to, nominify, embed) {
+    var cmd = "infuse " + prereqs[0] + " " + to;
     
-    cmd += " -d" + samplePreqs[1];
+    cmd += " -d" + prereqs[1];
     
     cmd += (nominify ? " -N" : "");
     cmd += (embed ? " -E" : "");
     
-    file(to, samplePreqs, function (t) {
+    file(to, prereqs, function (t) {
         cmd += (t.exists ? " -F" : "");
-        sh(cmd, function () { Task.clearAsync(); });
+        sh(cmd);
     });
 }
 
-CLEAN.include("sample*.js");
+CLEAN.include("sample.js", "sample.*.js");
 
-infuse("sample.min.js");
-infuse("sample.js", true);
-infuse("sample.embed.min.js", false, true);
-infuse("sample.embed.js", true, true);
+infuseTask("sample.min.js");
+infuseTask("sample.js", true);
+infuseTask("sample.embed.min.js", false, true);
+infuseTask("sample.embed.js", true, true);
 
 
 task("samples", [
