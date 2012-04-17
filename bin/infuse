@@ -58,6 +58,11 @@ var infuse      = require("../lib/infuse.js"),
             help: "Read INPUT_FILE from STDIN instead of a file. Base directory for resolving requires will be considered the current working directory.",
             flag: true
         },
+        watchFile: {
+            string: "-w, --watch",
+            help: "Watch INPUT_FILE. Whenever it is modified, re-infuse with the same command",
+            flag: true
+        },
         dumpAst: {
             string: "-A, --dump-ast",
             help: "Dump out the generated Abstract Syntax Tree.",
@@ -170,6 +175,21 @@ if (options.reserved) {
 }
 
 try {
+    if (options.watchFile) {
+        console.log("Watching file: " + inputFile);
+        options.force = true;
+        FS.watchFile(inputFile, function (curr, prev) {
+            var cmtime = curr.mtime.getTime(),
+                pmtime = prev.mtime.getTime()
+            ;
+            
+            if (cmtime > pmtime) {
+                console.log("Re-infusing: " + inputFile);
+                doInfuse(inputFile);
+            }
+        });
+    }
+
     if (options.readStdin) {
         inStream = process.stdin;
         inStream.setEncoding("utf8");
