@@ -36,7 +36,7 @@ Command Line Usage
        -d, --define-module NAME      Will load the NAMEd module (as per require()) and 'define' all exported properties.
        -E, --embed                   Embed the infused modules as strings and lazy-evaluate them when required.
        -R, --reserved WORD           A comma-delimited list of reserved words that should NOT be mangled.
-       -S, --stdin                   Read INPUT_FILE from STDIN instead of a file. Base directory for resolving includes will be considered the current working directory.
+       -S, --stdin                   Read INPUT_FILE from STDIN instead of a file. Base directory for resolving requires will be considered the current working directory.
        -A, --dump-ast                Dump out the generated Abstract Syntax Tree.
        -V, --version                 Print the version information and exit.
        -h, --help                    Print this.

@@ -55,7 +55,7 @@ var infuse      = require("../lib/infuse.js"),
         },
         readStdin: {
             string: "-S, --stdin",
-            help: "Read INPUT_FILE from STDIN instead of a file. Base directory for resolving includes will be considered the current working directory.",
+            help: "Read INPUT_FILE from STDIN instead of a file. Base directory for resolving requires will be considered the current working directory.",
             flag: true
         },
         dumpAst: {
