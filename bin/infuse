@@ -117,63 +117,6 @@ function doInfuse (src) {
 //---------------------------------------------------------------------------
 // Main
 //---------------------------------------------------------------------------
-if (defModule || defs) {
-    definitions = {};
-
-    // Require any definition modules
-    if (defModule) {
-        defModule = isArray(defModule) ? defModule : [defModule];
-        defModule.forEach(function (name) {
-            var mod;
-            name = name.indexOf(".") === 0 ?
-                Path.join(cwd, name) :
-                name;
-            mod = require(name);
-            Object.keys(mod).forEach(function (k) {
-                definitions[k] = mod[k];
-            });
-        });
-    }
-
-    // Individual definitions
-    if (defs) {
-        defs = isArray(defs) ? defs : [defs];
-        defs.forEach(function (def) {
-            var delimIdx = def.indexOf("="),
-                key, val
-            ;
-            
-            if (~delimIdx) {
-                key = def.slice(0, delimIdx);
-                val = def.slice(delimIdx+1);
-                try {
-                    val = JSON.parse(val);
-                }
-                catch (e) {
-                    // ignore...
-                    // console.log("Could not parse '" + key + "'. " + e);
-                }
-            }
-            else {
-                key = def;
-                val = true;
-            }
-            
-            // console.log(key + " = " + val + " (" + (typeof val) + ")");
-            
-            definitions[key] = val;
-        });
-    }
-}
-
-// Collect reserved words
-if (options.reserved) {
-    reserved = options.reserved.reduce(function (t, c) {
-        t.push.apply(t, c.split(","));
-        return t;
-    }, []);
-}
-
 try {
     if (options.watchFile) {
         console.log("Watching file: " + inputFile);
@@ -215,6 +158,62 @@ try {
     else {
         outStream = process.stdout;
         outStream.setEncoding("utf8");
+    }
+    if (defModule || defs) {
+        definitions = {};
+
+        // Require any definition modules
+        if (defModule) {
+            defModule = isArray(defModule) ? defModule : [defModule];
+            defModule.forEach(function (name) {
+                var mod;
+                name = name.indexOf(".") === 0 ?
+                    Path.join(cwd, name) :
+                    name;
+                mod = require(name);
+                Object.keys(mod).forEach(function (k) {
+                    definitions[k] = mod[k];
+                });
+            });
+        }
+
+        // Individual definitions
+        if (defs) {
+            defs = isArray(defs) ? defs : [defs];
+            defs.forEach(function (def) {
+                var delimIdx = def.indexOf("="),
+                    key, val
+                ;
+
+                if (~delimIdx) {
+                    key = def.slice(0, delimIdx);
+                    val = def.slice(delimIdx+1);
+                    try {
+                        val = JSON.parse(val);
+                    }
+                    catch (e) {
+                        // ignore...
+                        // console.log("Could not parse '" + key + "'. " + e);
+                    }
+                }
+                else {
+                    key = def;
+                    val = true;
+                }
+
+                // console.log(key + " = " + val + " (" + (typeof val) + ")");
+
+                definitions[key] = val;
+            });
+        }
+    }
+
+    // Collect reserved words
+    if (options.reserved) {
+        reserved = options.reserved.reduce(function (t, c) {
+            t.push.apply(t, c.split(","));
+            return t;
+        }, []);
     }
     
     if (inStream) {
