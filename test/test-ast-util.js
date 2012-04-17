@@ -2,7 +2,7 @@
 
 var should  = require("should"),
     SysUtil = require("util"),
-    astUtil = require("../lib/ast-util"),
+    astUtil = require("../lib/util-ast"),
     Iterator = require("../lib/iterator")
 ;
 

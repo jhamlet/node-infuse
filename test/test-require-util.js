@@ -3,7 +3,7 @@
 var should  = require("should"),
     SysUtil = require("util"),
     Path    = require("path"),
-    reqUtil = require("../lib/require-util")
+    reqUtil = require("../lib/util-require")
 ;
 
 suite("resolveRequireFrom", function () {
