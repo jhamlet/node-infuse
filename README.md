@@ -7,7 +7,7 @@ Infuse
 Summary
 -------
 
-**infuse** bundles up your node JavaScript files by following the `require("moduleName")` statements in your source file, and then bundles it all up into one JavaScript file.
+**infuse** bundles up your node JavaScript files by following the `require("moduleName")` statements in your source file, and then bundles it all up, and _uglifies_ (minimizes) it into one JavaScript file.
 
 In addition, by utilizing [`uglify-js`'](https://github.com/mishoo/UglifyJS) ability to remove dead code, you can have **infuse** act as a pre-processor of sorts on your combined file when using the `--define` and `--define-module` options.
 
