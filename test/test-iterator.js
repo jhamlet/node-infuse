@@ -66,4 +66,9 @@ suite("Iterator", function () {
         
         iter.getParent(iter.getCurrent()).name.should.equal("var");
     });
+    
+    test("#findAllNames", function () {
+        var named = iter.findAllNames("b");
+        console.log(named);
+    });
 });
