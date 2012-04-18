@@ -1,6 +1,6 @@
 
 var // rx       = require("rx"),
-    _        = require("underscore"),
+    //_        = require("underscore"),
     Iterator = require("../lib/iterator.js"),
     iter     = new Iterator(),
     title    = STRINGS(TITLE_KEY),
@@ -13,7 +13,8 @@ if (ENVIRONMENT === "dev") {
     console.log("Development environment");
 }
 
-console.log(_.map([1, 2, 3], function (i) { return Math.pow(i, 2); }));
+// console.log(_.map([1, 2, 3, 4], function (i) { return Math.pow(i, 2); }));
+console.log([1, 2, 3, 4].map(function (i) { return Math.pow(i, 2); }));
 
 MyClass = function () {
     

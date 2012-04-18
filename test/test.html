@@ -7,6 +7,23 @@
     <title>test</title>
 </head>
 <body>
-<script src="../sample.js"></script>
+<script>
+    var loadTimes = {
+        sampleMin: {
+            start: Date.now()
+        },
+        sampleEmbedMin: {}
+    };
+</script>
+<script src="../sample.min.js"></script>
+<script>
+    loadTimes.sampleMin.finish = loadTimes.sampleEmbedMin.start = Date.now();
+</script>
+<script src="../sample.embed.min.js"></script>
+<script>loadTimes.sampleEmbedMin.finish = Date.now();</script>
+<script>
+    console.log("sample.min.js: " + (loadTimes.sampleMin.finish - loadTimes.sampleMin.start) + " ms");
+    console.log("sample.embed.min.js: " + (loadTimes.sampleEmbedMin.finish - loadTimes.sampleEmbedMin.start) + " ms");
+</script>
 </body>
 </html>
