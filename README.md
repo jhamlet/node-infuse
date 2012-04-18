@@ -48,7 +48,6 @@ Dependencies
 
     uglify-js  >= 1.2.x
     nomnom     >= 1.5.x
-    underscore >= 1.3.x
     proteus    >= 0.0.x
 
 
