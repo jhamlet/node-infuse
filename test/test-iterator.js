@@ -67,8 +67,25 @@ suite("Iterator", function () {
         iter.getParent(iter.getCurrent()).name.should.equal("var");
     });
     
-    test("#findAllNames", function () {
-        var named = iter.findAllNames("b");
-        console.log(named);
+    test("#findAllNamesOf", function () {
+        var named = iter.findAllNamesOf("b");
+        named[0][0].should.eql("name");
+        named[0][1].should.eql("b");
+        
+        named = iter.findAllNamesOf("exports");
+        named[0][0].should.eql("name");
+        named[0][1].should.eql("exports");
+    });
+    
+    test("#find exports.fn value", function () {
+        var exportsFn = iter.find(function (node) {
+                return node[0] === "dot" &&
+                    node[1][0] === "name" &&
+                    node[1][1] === "exports"&&
+                    node[2] === "fn";
+            });
+        
+        exportsFn = iter.getParent(exportsFn)[3];
+        exportsFn[0].should.eql("function");
     });
 });
