@@ -59,12 +59,10 @@ Defines
 By having **infuse** handle the `defines` in the pre-mangled/squeezed AST, if you supply the `--no-minify` flag to **infuse** you can see the _beautified_ `uglify-js` generated output without any dead-code being removed (this is helpful when reviewing what your defines are returning/generating).
 
 
-Ebedding (Experimental)
------------------------
+Ebedding
+--------
 
 The **infuse** `-E, --embed` option will _infuse_ required modules as `strings` and lazy-evaluate them when used in the final script. In the case of a browser, this means appending a script element to the `head` of the document temporarily. In other cases, **infuse** goes to the _dark side_ and uses `eval`.
-
-> This functionality is currently **experimental** due to the difficulty of properly escaping the inner quotes of stringified code. i.e: the `underscore` module doesn't escape properly (which is strange, since **infuse** is using `underscore`'s own template function for it's embedding).
 
 The **advantage** of embedding is that the required JavaScript modules are not evaluated until the strings are put into a script node, or `eval`'d, when needed. This facilitates faster loading of the _infused_ JavaScript file, since it is, mostly, one large string.
 
