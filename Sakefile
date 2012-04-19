@@ -21,12 +21,40 @@ function infuseTask (to, nominify, embed) {
 }
 
 CLEAN.include("sample.js", "sample.*.js");
+CLEAN.include("examples/defines/script.js", "examples/defines/script.min.js");
 
 infuseTask("sample.js", true);
 infuseTask("sample.min.js");
 infuseTask("sample.embed.js", true, true);
 infuseTask("sample.embed.min.js", false, true);
 
+file(
+    "examples/defines/script.js",
+    [
+        "examples/defines/my-script.js",
+        "./examples/defines/my-defines.js"
+    ],
+    function (t) {
+        var prereqs = t.prerequisites;
+        sh([
+            "infuse", prereqs[0], t.name, "-d", prereqs[1], "-N -F"
+        ].join(" "));
+    }
+);
+
+file(
+    "examples/defines/script.min.js",
+    [
+        "examples/defines/my-script.js",
+        "./examples/defines/my-defines.js"
+    ],
+    function (t) {
+        var prereqs = t.prerequisites;
+        sh([
+            "infuse", prereqs[0], t.name, "-d", prereqs[1], "-F"
+        ].join(" "));
+    }
+);
 
 task("samples", [
     "sample.js",
@@ -35,4 +63,4 @@ task("samples", [
     "sample.embed.min.js"
 ]);
 
-task("default", ["samples"]);
+task("examples", ["examples/defines/script.js", "examples/defines/script.min.js"]);
