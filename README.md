@@ -117,6 +117,23 @@ module.exports = {
         isDebug: isDebug
     }
 };
+
+// contents of my-script.js
+
+var appConfig   = CONFIG;
+
+if (ENVIRONMENT === "dev") {
+    console.log("A note to the developer...");
+}
+
+function MyClass () {}
+
+MyClass.prototype = {
+    appName: TOKEN("appName"),
+    authorName: TOKEN("authorName"),
+    
+    specialMethod: MY_METHOD(),
+};
 ~~~
 
 And I run `infuse my-script.js script.js -d ./my-defines.js -N` (assuming I have ENVIRONMENT set to `dev`) I would get the following:

@@ -13,4 +13,4 @@ MyClass.prototype = {
     authorName: TOKEN("authorName"),
     
     specialMethod: MY_METHOD(),
-}
+};
