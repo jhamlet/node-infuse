@@ -62,8 +62,8 @@ var infuse      = require("../"),
             help: "Watch INPUT_FILE. Whenever it is modified, re-infuse with the same command.",
             flag: true
         },
-        dumpInfusionPaths: {
-            string: "-I, --infusded-paths",
+        dumpPaths: {
+            string: "-I, --infuse-paths",
             help: "Print all the paths required for this infusion to STDOUT and exit.",
             flag: true
         },
@@ -113,7 +113,7 @@ function doInfuse (src) {
                 libPaths:    options.nodeLibPaths || null,
                 nominify:    options.nominify,
                 dumpAst:     options.dumpAst,
-                dumpPaths:   options.dumpInfusionPaths
+                dumpPaths:   options.dumpPaths
             }
         ),
         "utf8"
