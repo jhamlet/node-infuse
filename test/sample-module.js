@@ -21,5 +21,13 @@ module.exports = {
     },
     EXEC: function (fn) {
         return fn();
+    },
+    MY_OBJECT: {
+        foo: "foo",
+        baz: [1, 2, 3],
+        doSomething: function () {
+            return "something";
+        },
+        isDebug: env === "dev"
     }
 };

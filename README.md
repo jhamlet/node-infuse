@@ -21,7 +21,7 @@ Installation
 Command Line Usage
 ------------------
 
-~~~sh
+~~~
 % infuse -h
 
 usage: infuse INPUT_PATH [OUPUT_PATH] [options]
@@ -76,3 +76,80 @@ More?
 
 Future plans are to have **infuse** allow you to post-process your JavaScript and manipulate the underlying _Abstract Syntax Tree_. This will allow _macros_, _replacements_, and more...
 
+
+Examples
+--------
+
+### Defines ###
+
+~~~js
+// contents my-defines.js
+
+var env = process.env.ENVIRONMENT || "dev",
+    tokens = {
+        appName: "My Great WebApp",
+        authorName: "Me"
+    },
+    isDebug = env === "dev"
+;
+
+module.exports = {
+    ENVIRONMENT: env,
+    DEBUG: isDebug,
+    TOKEN: function (key) {
+        return tokens[key];
+    },
+    MY_METHOD: function () {
+        return isDebug ?
+            function () {
+                return "is debug";
+            } :
+            function () {
+                return "is not debug";
+            }
+    },
+    CONFIG: {
+        foo: "foo",
+        baz: [1, 2, 3],
+        doSomething: function () {
+            return "something";
+        },
+        isDebug: isDebug
+    }
+};
+~~~
+
+And I run `infuse my-script.js script.js -d ./my-defines.js -N` (assuming I have ENVIRONMENT set to `dev`) I would get the following:
+
+~~~js
+var appConfig = {
+    foo: "foo",
+    baz: [ 1, 2, 3 ],
+    doSomething: function() {
+        return "something";
+    },
+    isDebug: true
+};
+
+if ("dev" === "dev") {
+    console.log("A note to the developer...");
+}
+
+function MyClass() {}
+
+MyClass.prototype = {
+    appName: "My Great WebApp",
+    authorName: "Me",
+    specialMethod: function() {
+        return "is debug";
+    }
+};
+~~~
+
+And the minified result (`infuse my-script.js script.js -d ./my-defines.js`) would be:
+
+~~~js
+function b(){}var a={foo:"foo",baz:[1,2,3],doSomething:function(){return"something"},isDebug:true};console.log("A note to the developer..."),b.prototype={appName:"My Great WebApp",authorName:"Me",specialMethod:function(){return"is debug"}}
+~~~
+
+Note how the `if` block was removed around the `console.log` statement, since this is `dev` mode. If `ENVIRONMENT` was set to some other value, `console.log` would be removed too.

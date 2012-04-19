@@ -33,4 +33,6 @@
 
     var obj = new MyClass();
     console.log(obj.env());
+    
+    var otherObj = MY_OBJECT;
 }());

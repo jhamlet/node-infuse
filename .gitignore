@@ -3,3 +3,5 @@ node_modules
 somefile.js
 sample*
 test/test.js
+examples/defines/script.js
+examples/defines/script.min.js
