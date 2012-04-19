@@ -41,7 +41,7 @@ options:
    -S, --stdin                   Read INPUT_FILE from STDIN instead of a file. The current working
                                  directory will be considerd the base directory for resolving requires.
    -w, --watch                   Watch INPUT_FILE. Whenever it is modified, re-infuse with the same command.
-   -I, --infusded-paths          Print all the paths required for this infusion to STDOUT and exit.
+   -I, --infuse-paths            Print all the paths required for this infusion to STDOUT and exit.
    -A, --dump-ast                Dump out the generated Abstract Syntax Tree and exit.
    -V, --version                 Print the version information and exit.
    -h, --help                    Print this and exit.
