@@ -1,11 +1,15 @@
 /*globals FileList, CLEAN, Task, task, file, sh */
 
-var prereqs = ["test/sample-src.js", "./test/sample-module.js"];
+var infuse = require("infuse"),
+    prereqs = new FileList("test/sample-src.js", "./test/sample-module.js")
+;
+
+prereqs.include(infuse("test/sample-src.js", {dumpPaths: true}).split("\n"));
 
 function infuseTask (to, nominify, embed) {
-    var cmd = "infuse " + prereqs[0] + " " + to;
+    var cmd = "infuse " + prereqs.items[0] + " " + to;
     
-    cmd += " -d " + prereqs[1];
+    cmd += " -d " + prereqs.items[1];
     
     cmd += (nominify ? " -N" : "");
     cmd += (embed ? " -E" : "");

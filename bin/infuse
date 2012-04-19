@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
-var infuse      = require("../lib/infuse.js"),
+var infuse      = require("../"),
     FS          = require("fs"),
     Path        = require("path"),
     isArray     = Array.isArray,
     packagePath = Path.join(__dirname, "..", "package.json"),
     packageInfo = JSON.parse(FS.readFileSync(packagePath, "utf8")),
-    pad         = Array(4).join(" "),
     opts        = {
         infile: {
             string: "INPUT_PATH",
@@ -63,9 +62,14 @@ var infuse      = require("../lib/infuse.js"),
             help: "Watch INPUT_FILE. Whenever it is modified, re-infuse with the same command.",
             flag: true
         },
+        dumpInfusionPaths: {
+            string: "-I, --infusded-paths",
+            help: "Print all the paths required for this infusion to STDOUT and exit.",
+            flag: true
+        },
         dumpAst: {
             string: "-A, --dump-ast",
-            help: "Dump out the generated Abstract Syntax Tree.",
+            help: "Dump out the generated Abstract Syntax Tree and exit.",
             flag: true
         },
         version: {
@@ -78,7 +82,7 @@ var infuse      = require("../lib/infuse.js"),
         },
         help: {
             string: "-h, --help",
-            help: "Print this.",
+            help: "Print this and exit.",
             flag: true
         }
     },
@@ -108,7 +112,8 @@ function doInfuse (src) {
                 embed:       options.embed,
                 libPaths:    options.nodeLibPaths || null,
                 nominify:    options.nominify,
-                dumpAst:     options.dumpAst
+                dumpAst:     options.dumpAst,
+                dumpPaths:   options.dumpInfusionPaths
             }
         ),
         "utf8"
@@ -195,17 +200,12 @@ try {
                     try {
                         val = JSON.parse(val);
                     }
-                    catch (e) {
-                        // ignore...
-                        // console.log("Could not parse '" + key + "'. " + e);
-                    }
+                    catch (e) {}
                 }
                 else {
                     key = def;
                     val = true;
                 }
-
-                // console.log(key + " = " + val + " (" + (typeof val) + ")");
 
                 definitions[key] = val;
             });

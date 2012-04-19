@@ -1,6 +1,6 @@
 
 (function () {
-    var // rx       = require("rx"),
+    var rx       = require("rx"),
         _        = require("underscore"),
         Iterator = require("../lib/iterator.js"),
         iter     = new Iterator(),
