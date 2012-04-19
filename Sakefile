@@ -25,7 +25,6 @@ infuseTask("sample.embed.min.js", false, true);
 
 
 task("samples", [
-    "clean",
     "sample.js",
     "sample.min.js",
     "sample.embed.js",
