@@ -30,20 +30,42 @@ INPUT_PATH     File to read.
 [OUPUT_PATH]     File to write. If not specified, write to STDOUT.
 
 options:
-   -L, --node-lib PATH           PATH to your local library directory of node builtin modules.
+   -L, --node-lib PATH           PATH to your local library directory of node builtin
+                                 modules.
+                                 
    -N, --no-minify               Do not minify the output.
+                                 
    -F, --force                   If OUTPUT_PATH already exists, overwrite it.
+                                 
    -D, --define SYMBOL[=VALUE]   Replace all instances of the specified SYMBOL with VALUE.
-   -d, --define-module NAME      Will load the NAMEd module (as per require()) and 'define' all
-                                 exported properties.
-   -E, --embed                   Embed the infused modules as strings and lazy-evaluate them when required.
-   -R, --reserved WORD           A comma-delimited list of reserved words that should NOT be mangled.
-   -S, --stdin                   Read INPUT_FILE from STDIN instead of a file. The current working
-                                 directory will be considerd the base directory for resolving requires.
-   -w, --watch                   Watch INPUT_FILE. Whenever it is modified, re-infuse with the same command.
-   -I, --infuse-paths            Print all the paths required for this infusion to STDOUT and exit.
+                                 
+   -d, --define-module NAME      Will load the NAMEd module (as per require()) and 'define'
+                                 all exported properties.
+                                 
+   -E, --embed                   Embed the infused modules as strings and lazy-evaluate them
+                                 when required.
+                                 
+   -R, --reserved WORD           A comma-delimited list of reserved words that should NOT be
+                                 mangled.
+                                 
+   -S, --stdin                   Read INPUT_FILE from STDIN instead of a file. The current
+                                 working directory will be considerd the base directory for
+                                 resolving requires.
+                                 
+   -w, --watch                   Watch INPUT_FILE. Whenever it is modified, re-infuse with
+                                 the same command.
+                                 
+   -i, --infuse PATH             Pre-infuse with PATH. These files will be included in the
+                                 infusions and will be automatically 'required' before the
+                                 INPUT_FILE executes.
+                                 
+   -I, --dump-infusions          Print all the paths 'required' by INPUT_PATH (and those it
+                                 requires) to STDOUT and exit.
+                                 
    -A, --dump-ast                Dump out the generated Abstract Syntax Tree and exit.
+                                 
    -V, --version                 Print the version information and exit.
+                                 
    -h, --help                    Print this and exit.
 ~~~
 
