@@ -20,7 +20,8 @@
     "dependencies": {
         "proteus":   ">=0.0.x",
         "nomnom":    ">=1.5.x",
-        "uglify-js": ">=1.2.x"
+        "uglify-js": ">=1.2.x",
+        "wordwrap":  ">=0.0.2"
     },
     "devDependencies": {
         "mocha":      ">=0.3.x",
