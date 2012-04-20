@@ -1,7 +1,6 @@
 
-(function () {
-    var rx       = require("rx"),
-        _        = require("underscore"),
+(function (global) {
+    var _        = require("underscore"),
         Iterator = require("../lib/iterator.js"),
         iter     = new Iterator(),
         title    = STRINGS(TITLE_KEY),
@@ -25,6 +24,9 @@
         foo: function () {
             return "Foo";
         },
+        getRx: function () {
+            return require("rx");
+        },
         env: MAKE_SPECIAL_METHOD(ENVIRONMENT),
         buildOs: EXEC(function () {
             return typeof os !== "undefined" ? os.hostname : false;
@@ -33,6 +35,6 @@
 
     var obj = new MyClass();
     console.log(obj.env());
-    
+    global.test = obj;
     var otherObj = MY_OBJECT;
-}());
+}(this));
