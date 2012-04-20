@@ -6,7 +6,31 @@ var infuse      = require("../"),
     isArray     = Array.isArray,
     packagePath = Path.join(__dirname, "..", "package.json"),
     packageInfo = JSON.parse(FS.readFileSync(packagePath, "utf8")),
-    opts        = {
+    formatHelp  = function (options) {
+        var helpW = 60,
+            wordwrap =  require("wordwrap")(helpW),
+            optCols,
+            pad
+        ;
+        
+        optCols = Object.keys(options).reduce(function (t, key) {
+            var optW = options[key].string.length;
+            return optW > t ? optW : t;
+        }, 0);
+        
+        pad = optCols + 7;
+        
+        Object.keys(options).forEach(function (key) {
+            var opt = options[key];
+            if (!opt.hasOwnProperty("position")) {
+                opt.help = wordwrap(opt.help) + "\n";
+                opt.help = opt.help.replace(/\n/g, "\n" + Array(pad).join(" "));
+            }
+        });
+        
+        return options;
+    },
+    opts        = formatHelp({
         infile: {
             string: "INPUT_PATH",
             position: 0,
@@ -64,12 +88,12 @@ var infuse      = require("../"),
         },
         prefuse: {
             string: "-i, --infuse PATH",
-            help: "Pre-infuse with PATH.",
+            help: "Pre-infuse with PATH. These files will be included in the infusions and will be automatically 'required' before the INPUT_FILE executes.",
             list: true
         },
         dumpPaths: {
-            string: "-I, --infuse-paths",
-            help: "Print all the paths required for this infusion to STDOUT and exit.",
+            string: "-I, --dump-infusions",
+            help: "Print all the paths 'required' by INPUT_PATH (and those it requires) to STDOUT and exit.",
             flag: true
         },
         dumpAst: {
@@ -90,7 +114,7 @@ var infuse      = require("../"),
             help: "Print this and exit.",
             flag: true
         }
-    },
+    }),
     options = require("nomnom").
         script("infuse").
         options(opts).
