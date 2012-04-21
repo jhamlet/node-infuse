@@ -75,6 +75,7 @@ Dependencies
     uglify-js  >= 1.2.x
     nomnom     >= 1.5.x
     proteus    >= 0.0.x
+    wordwrap   >= 0.0.2
 
 
 Defines
