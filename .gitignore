@@ -2,5 +2,5 @@ npm-debug.log
 /node_modules
 sample*
 test/test.js
-examples/defines/script.js
-examples/defines/script.min.js
+examples/*/script.js
+examples/*/script.min.js
