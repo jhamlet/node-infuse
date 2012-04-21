@@ -15,8 +15,10 @@ In addition, by utilizing [`uglify-js`'](https://github.com/mishoo/UglifyJS) abi
 Installation
 ------------
 
-    % npm install -g infuse
-    
+~~~
+% npm install -g infuse
+~~~
+
 
 Command Line Usage
 ------------------
@@ -69,8 +71,7 @@ options:
    -h, --help                    Print this and exit.
 ~~~
 
-Dependencies
-------------
+### Dependencies ###
 
     uglify-js  >= 1.2.x
     nomnom     >= 1.5.x
@@ -92,12 +93,6 @@ Embedding
 The **infuse** `-E, --embed` option will _infuse_ required modules as `strings` and lazy-evaluate them when used in the final script. In the case of a browser, this means appending a script element to the `head` of the document temporarily. In other cases, **infuse** goes to the _dark side_ and uses `eval`.
 
 The **advantage** of embedding is that the required JavaScript modules are not evaluated until the strings are put into a script node, or `eval`'d, when needed. This facilitates faster loading of the _infused_ JavaScript file, since it is, mostly, one large string.
-
-
-More?
------
-
-Future plans are to have **infuse** allow you to post-process your JavaScript and manipulate the underlying _Abstract Syntax Tree_. This will allow _macros_, _replacements_, and more...
 
 
 Examples
@@ -193,3 +188,17 @@ function b(){}var a={foo:"foo",baz:[1,2,3],doSomething:function(){return"somethi
 ~~~
 
 Note how the `if` block was removed around the `console.log` statement, since this is `dev` mode. If `ENVIRONMENT` was set to some other value, `console.log` would be removed too.
+
+There are more examples in the "examples" directory. Install the development dependencies, and then run:
+
+~~~
+sake examples ENVIRONMENT=[dev|prod] BUILD_TYPE=[debug|release]
+~~~
+
+
+More?
+-----
+
+Future plans are to have **infuse** allow you to post-process your JavaScript and manipulate the underlying _Abstract Syntax Tree_. This will allow _macros_, _replacements_, and more...
+
+

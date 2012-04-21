@@ -11,11 +11,7 @@ suite("resolveRequireFrom", function () {
     test("local directory require", function () {
         var path;
         
-        // The following should be equivalent
         path = reqUtil.resolveFrom(__dirname, "./sample-module.js");
-        path.should.eql(Path.join(__dirname, "./sample-module.js"));
-        
-        path = reqUtil.resolveFrom(__dirname, "./sample-module");
         path.should.eql(Path.join(__dirname, "./sample-module.js"));
     });
     

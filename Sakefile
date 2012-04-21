@@ -1,66 +1,40 @@
 /*globals FileList, CLEAN, Task, task, file, sh */
 
-var infuse = require("infuse"),
-    prereqs = new FileList("test/sample-src.js", "./test/sample-module.js")
+var infuse      = require("infuse"),
+    FS          = require("fs"),
+    Path        = require("path"),
+    infuse      = require("infuse"),
+    examplesDir = "examples"
 ;
 
-prereqs.include(infuse("test/sample-src.js", {dumpPaths: true}).split("\n"));
+CLEAN.include("examples/*/script.js", "examples/*/script.min.js");
 
-function infuseTask (to, nominify, embed) {
-    var cmd = "infuse " + prereqs.items[0] + " " + to;
+task("examples");
+
+FS.readdirSync(examplesDir).forEach(function (name) {
+    var dirName     = Path.join(examplesDir, name),
+        outputPath  = Path.join(dirName, "script.js"),
+        minifyPath  = Path.join(dirName, "script.min.js"),
+        inputPath   = Path.join(dirName, "my-script.js"),
+        modulePath  = "./" + Path.join(dirName, "my-defines.js"),
+        prereqs     = new FileList(inputPath, modulePath)
+    ;
     
-    cmd += " -d " + prereqs.items[1];
+    // We dump any infusion paths the input may have, so we can add them to
+    // the list of prerequisites for the file task (if they change, rebuild
+    // the outputPath)
+    prereqs.include(infuse(inputPath, {dumpPaths: true}).split("\n"));
     
-    cmd += (nominify ? " -N" : "");
-    cmd += (embed ? " -E" : "");
-    
-    file(to, prereqs, function (t) {
-        cmd += (t.exists ? " -F" : "");
-        sh(cmd);
+    file(outputPath, prereqs, function (t) {
+        sh(["infuse", inputPath, outputPath, "-d", modulePath, "-N -F"].join(" "));
     });
-}
+    
+    file(minifyPath, prereqs, function (t) {
+        sh(["infuse", inputPath, minifyPath, "-d", modulePath, "-F"].join(" "));
+    });
+    
+    task("examples", [outputPath, minifyPath]);
+    
+});
 
-CLEAN.include("sample.js", "sample.*.js");
-CLEAN.include("examples/defines/script.js", "examples/defines/script.min.js");
-
-infuseTask("sample.js", true);
-infuseTask("sample.min.js");
-infuseTask("sample.embed.js", true, true);
-infuseTask("sample.embed.min.js", false, true);
-
-file(
-    "examples/defines/script.js",
-    [
-        "examples/defines/my-script.js",
-        "./examples/defines/my-defines.js"
-    ],
-    function (t) {
-        var prereqs = t.prerequisites;
-        sh([
-            "infuse", prereqs[0], t.name, "-d", prereqs[1], "-N -F"
-        ].join(" "));
-    }
-);
-
-file(
-    "examples/defines/script.min.js",
-    [
-        "examples/defines/my-script.js",
-        "./examples/defines/my-defines.js"
-    ],
-    function (t) {
-        var prereqs = t.prerequisites;
-        sh([
-            "infuse", prereqs[0], t.name, "-d", prereqs[1], "-F"
-        ].join(" "));
-    }
-);
-
-task("samples", [
-    "sample.js",
-    "sample.min.js",
-    "sample.embed.js",
-    "sample.embed.min.js"
-]);
-
-task("examples", ["examples/defines/script.js", "examples/defines/script.min.js"]);
+task("default", ["examples"]);

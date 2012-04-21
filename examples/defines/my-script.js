@@ -1,5 +1,5 @@
 
-var appConfig   = CONFIG;
+var appConfig = CONFIG;
 
 
 if (ENVIRONMENT === "dev") {
