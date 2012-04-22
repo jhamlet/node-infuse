@@ -3,4 +3,4 @@ npm-debug.log
 sample*
 test/test.js
 examples/*/script.js
-examples/*/script.min.js
+examples/*/script.*.js
