@@ -45,4 +45,22 @@ FS.readdirSync(examplesDir).forEach(function (name) {
     
 });
 
-task("default", ["examples"]);
+file("README.md", ["README.tmpl", "package.json", "Sakefile"], function (t) {
+    var _ = require("underscore"),
+        tmpl = _.template(read(t.prerequisites[0], "utf8")),
+        tmplParams = {
+            dependencies: JSON.parse(read("package.json", "utf8")).dependencies,
+            usage: ""
+        }
+    ;
+    
+    sh("infuse -h", function (txt) {
+        tmplParams.usage = txt.split("\n").slice(1, -3).join("\n");
+        write(t.name, tmpl(tmplParams), "utf8");
+    });
+    
+});
+CLEAN.include("README.md");
+
+task("build", ["README.md"]);
+task("default", ["build"]);
