@@ -29,12 +29,20 @@ Command Line Usage
 <%=usage%>
 ~~~
 
-### Dependencies ###
 
+### Dependencies ###
+<% var  fw = Object.keys(dependencies).reduce(function (t, c) {
+            var len = c.length;
+            return len > t ? len : t;
+        }, 0),
+        deps = Object.keys(dependencies).map(function (key) {
+            var pad = Array(fw - key.length + 1).join(" ");
+            return key + ": " + pad + dependencies[key];
+        }).join("\n");%>
 ~~~
-<% for (var dep in dependencies) {%><%=dep%>: <%=dependencies[dep]%>
-<% } %>
+<%=deps%>
 ~~~
+
 
 Defines
 -------

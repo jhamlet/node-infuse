@@ -1,4 +1,4 @@
-/*globals FileList, CLEAN, desc, task, file, sh */
+/*globals FileList, CLEAN, desc, task, file, sh, read */
 
 var infuse      = require("infuse"),
     FS          = require("fs"),
