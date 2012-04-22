@@ -1,4 +1,4 @@
-/*globals FileList, CLEAN, Task, task, file, sh */
+/*globals FileList, CLEAN, desc, task, file, sh */
 
 var infuse      = require("infuse"),
     FS          = require("fs"),
@@ -7,33 +7,41 @@ var infuse      = require("infuse"),
     examplesDir = "examples"
 ;
 
-CLEAN.include("examples/*/script.js", "examples/*/script.min.js");
-
+desc("Generate the example files.");
 task("examples");
 
 FS.readdirSync(examplesDir).forEach(function (name) {
     var dirName     = Path.join(examplesDir, name),
-        outputPath  = Path.join(dirName, "script.js"),
-        minifyPath  = Path.join(dirName, "script.min.js"),
         inputPath   = Path.join(dirName, "my-script.js"),
+        // --define-module argument(s) that are relative to the current
+        // working directory need to be prefixed with "./" so node can find
+        // them when required.
         modulePath  = "./" + Path.join(dirName, "my-defines.js"),
         prereqs     = new FileList(inputPath, modulePath)
     ;
-    
-    // We dump any infusion paths the input may have, so we can add them to
-    // the list of prerequisites for the file task (if they change, rebuild
-    // the outputPath)
+    // We dump any infusion paths the input file may pull in, so we can add
+    // them to the list of prerequisites for the file task (if they change,
+    // rebuild the outputPath)
     prereqs.include(infuse(inputPath, {dumpPaths: true}).split("\n"));
-    
-    file(outputPath, prereqs, function (t) {
-        sh(["infuse", inputPath, outputPath, "-d", modulePath, "-N -F"].join(" "));
+
+    // Generate the four variations of the files: minified, embedded and
+    // minified, un-minified, and embedded and un-minified.
+    [ [], ["-E"], ["-N"], ["-E", "-N"] ].forEach(function (args) {
+        var extMap = {"-E": "embed", "-N": "nomin"},
+            outputPath = Path.join(dirName, args.reduce(function (t, c) {
+                return t + "." + extMap[c];
+            }, "script") + ".js"),
+            cmd = ["infuse", inputPath, outputPath, "-d", modulePath, "-F"]
+        ;
+        
+        CLEAN.include(outputPath);
+
+        cmd = cmd.concat.apply(cmd, args);
+
+        file(outputPath, prereqs, function (t) { sh(cmd.join(" ")); });
+        
+        task("examples", [outputPath]);
     });
-    
-    file(minifyPath, prereqs, function (t) {
-        sh(["infuse", inputPath, minifyPath, "-d", modulePath, "-F"].join(" "));
-    });
-    
-    task("examples", [outputPath, minifyPath]);
     
 });
 
