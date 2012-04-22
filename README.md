@@ -26,50 +26,41 @@ Command Line Usage
 ~~~
 % infuse -h
 
-usage: infuse INPUT_PATH [OUPUT_PATH] [options]
+usage: infuse INPUT_PATH OUPUT_PATH [options]
 
 INPUT_PATH     File to read.
-[OUPUT_PATH]     File to write. If not specified, write to STDOUT.
+OUPUT_PATH     File to write. If not specified, write to STDOUT.
 
 options:
-   -L, --node-lib PATH           PATH to your local library directory of node builtin
-                                 modules.
-                                 
-   -N, --no-minify               Do not minify the output.
-                                 
+   -N, --no-minify               Do not minify the output. Essentially, set `beautify` for
+                                 the UglifyJS output.
    -F, --force                   If OUTPUT_PATH already exists, overwrite it.
-                                 
    -D, --define SYMBOL[=VALUE]   Replace all instances of the specified SYMBOL with VALUE.
-                                 
+                                 If VALUE is not given, that evaluates to SYMBOL=true.
+                                 Otherwise, VALUE will be JSON parsed, and if that fails, it
+                                 will be used as a plain string. Can be specified multiple
+                                 times.
    -d, --define-module NAME      Will load the NAMEd module (as per require()) and 'define'
-                                 all exported properties.
-                                 
-   -E, --embed                   Embed the infused modules as strings and lazy-evaluate them
-                                 when required.
-                                 
+                                 all exported properties. Note: if you are requiring a path
+                                 relative to the current working directory, be sure to start
+                                 your path with a './', just as you would for a node require
+                                 statement. Can be specified multiple times.
+   -E, --embed                   Embed the infused modules as strings in the final output,
+                                 and lazy-evaluate them when required.
    -R, --reserved WORD           A comma-delimited list of reserved words that should NOT be
-                                 mangled.
-                                 
-   -S, --stdin                   Read INPUT_FILE from STDIN instead of a file. The current
-                                 working directory will be considerd the base directory for
-                                 resolving requires.
-                                 
-   -w, --watch                   Watch INPUT_FILE. Whenever it is modified, re-infuse with
-                                 the same command.
-                                 
-   -i, --infuse PATH             Pre-infuse with PATH. These files will be included in the
-                                 infusions and will be automatically 'required' before the
-                                 INPUT_FILE executes.
-                                 
-   -I, --dump-infusions          Print all the paths 'required' by INPUT_PATH (and those it
-                                 requires) to STDOUT and exit.
-                                 
+                                 mangled. Can be specified multiple times.
+   -L, --node-lib PATH           PATH to your local directory of node builtin modules. These
+                                 are used to resolve requires for 'core' modules (not
+                                 suggested). Can be specified multiple times, and each
+                                 directory will be tried.
+   -i, --infuse PATH             Pre-infuse with PATH. These files will be infused into the
+                                 final output and will be automatically 'de-fused' before
+                                 the INPUT_FILE executes. Can be specified multiple times.
+   -I, --dump-infusions          Print all the paths 'required' by INPUT_PATH (and all other
+                                 required files) to STDOUT and exit.
    -A, --dump-ast                Dump out the generated Abstract Syntax Tree and exit.
-                                 
    -V, --version                 Print the version information and exit.
-                                 
    -h, --help                    Print this and exit.
-                                 
 ~~~
 
 

@@ -22,7 +22,7 @@ module.exports = {
             }
     },
     CONFIG: {
-        foo: "foo",
+        foo: "baz",
         baz: [1, 2, 3],
         doSomething: function () {
             return "something";

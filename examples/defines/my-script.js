@@ -1,9 +1,8 @@
 
 var appConfig = CONFIG;
 
-
 if (ENVIRONMENT === "dev") {
-    console.log("A note to the developer...");
+    console.log("A note to the person...");
 }
 
 function MyClass () {}

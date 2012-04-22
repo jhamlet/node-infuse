@@ -1,4 +1,4 @@
-/*globals FileList, CLEAN, desc, task, file, sh, read */
+/*globals FileList, CLEAN, CLOBBER, desc, task, file, sh, read */
 
 var infuse      = require("infuse"),
     FS          = require("fs"),
@@ -45,7 +45,7 @@ FS.readdirSync(examplesDir).forEach(function (name) {
     
 });
 
-file("README.md", ["README.tmpl", "package.json", "Sakefile"], function (t) {
+file("README.md", ["README.tmpl", "package.json", "Sakefile", "lib/options.js"], function (t) {
     var _ = require("underscore"),
         tmpl = _.template(read(t.prerequisites[0], "utf8")),
         tmplParams = {
@@ -60,7 +60,7 @@ file("README.md", ["README.tmpl", "package.json", "Sakefile"], function (t) {
     });
     
 });
-CLEAN.include("README.md");
+CLOBBER.include("README.md");
 
 task("build", ["README.md"]);
 task("default", ["build"]);
