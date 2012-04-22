@@ -28,20 +28,18 @@ Command Line Usage
 
 usage: infuse INPUT_PATH OUPUT_PATH [options]
 
-INPUT_PATH     File to read.
-OUPUT_PATH     File to write. If not specified, write to STDOUT.
+INPUT_PATH     File or directory to read.
+OUPUT_PATH     File or directory to write to. If not specified, write to STDOUT.
 
 options:
    -N, --no-minify               Do not minify the output. Essentially, set `beautify` for
                                  the UglifyJS output.
-   -F, --force                   If OUTPUT_PATH already exists, overwrite it.
    -D, --define SYMBOL[=VALUE]   Replace all instances of the specified SYMBOL with VALUE.
-                                 If VALUE is not given, that evaluates to SYMBOL=true.
-                                 Otherwise, VALUE will be JSON parsed, and if that fails, it
-                                 will be used as a plain string. Can be specified multiple
-                                 times.
+                                 If VALUE is not given, SYMBOL will be set to true.
+                                 Otherwise, VALUE will be a JSON parsed value, or plain
+                                 string. Can be specified multiple times.
    -d, --define-module NAME      Will load the NAMEd module (as per require()) and 'define'
-                                 all exported properties. Note: if you are requiring a path
+                                 all exported properties. NOTE: if you are requiring a path
                                  relative to the current working directory, be sure to start
                                  your path with a './', just as you would for a node require
                                  statement. Can be specified multiple times.
@@ -55,12 +53,18 @@ options:
                                  directory will be tried.
    -i, --infuse PATH             Pre-infuse with PATH. These files will be infused into the
                                  final output and will be automatically 'de-fused' before
-                                 the INPUT_FILE executes. Can be specified multiple times.
+                                 the INPUT_PATH executes. Can be specified multiple times.
    -I, --dump-infusions          Print all the paths 'required' by INPUT_PATH (and all other
                                  required files) to STDOUT and exit.
    -A, --dump-ast                Dump out the generated Abstract Syntax Tree and exit.
    -V, --version                 Print the version information and exit.
    -h, --help                    Print this and exit.
+
+NOTES:
+In the case of INPUT_PATH being a directory, if OUTPUT_PATH is a directory each file from
+INPUT_PATH will be infused and placed in OUTPUT_PATH. If OUTPUT_PATH is a file, all files from
+INPUT_PATH will be infused and combined into OUTPUT_PATH. If OUTPUT_PATH is meant to be a
+directory, it must exist first.
 ~~~
 
 

@@ -1,4 +1,4 @@
-/*globals FileList, CLEAN, CLOBBER, desc, task, file, sh, read */
+/*globals FileList, CLEAN, CLOBBER, desc, task, directory, write, file, sh, read */
 
 var infuse      = require("infuse"),
     FS          = require("fs"),
@@ -19,6 +19,10 @@ FS.readdirSync(examplesDir).forEach(function (name) {
         modulePath  = "./" + Path.join(dirName, "my-defines.js"),
         prereqs     = new FileList(inputPath, modulePath)
     ;
+    
+    if (!Path.existsSync(inputPath)) {
+        return;
+    }
     // We dump any infusion paths the input file may pull in, so we can add
     // them to the list of prerequisites for the file task (if they change,
     // rebuild the outputPath)
@@ -31,7 +35,7 @@ FS.readdirSync(examplesDir).forEach(function (name) {
             outputPath = Path.join(dirName, args.reduce(function (t, c) {
                 return t + "." + extMap[c];
             }, "script") + ".js"),
-            cmd = ["infuse", inputPath, outputPath, "-d", modulePath, "-F"]
+            cmd = ["infuse", inputPath, outputPath, "-d", modulePath]
         ;
         
         CLEAN.include(outputPath);
@@ -45,6 +49,19 @@ FS.readdirSync(examplesDir).forEach(function (name) {
     
 });
 
+directory("examples/directories/output");
+task("directories-example", ["examples/directories/output"], function (t) {
+    sh("infuse examples/directories/ examples/directories/output/ -N -L ~/Sources/node/lib");
+});
+task("directories-example", function (t) {
+    sh("infuse examples/directories/ examples/directories/output/directories.js -N -L ~/Sources/node/lib");
+});
+CLEAN.include("examples/directories/output/*");
+CLOBBER.include("examples/directories/output");
+task("dir-examples", ["directories-example"]);
+
+
+desc("Generate the README.md documentation");
 file("README.md", ["README.tmpl", "package.json", "Sakefile", "lib/options.js"], function (t) {
     var _ = require("underscore"),
         tmpl = _.template(read(t.prerequisites[0], "utf8")),
@@ -55,7 +72,7 @@ file("README.md", ["README.tmpl", "package.json", "Sakefile", "lib/options.js"],
     ;
     
     sh("infuse -h", function (txt) {
-        tmplParams.usage = txt.split("\n").slice(1, -3).join("\n");
+        tmplParams.usage = txt.split("\n").slice(1, -2).join("\n");
         write(t.name, tmpl(tmplParams), "utf8");
     });
     
