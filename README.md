@@ -61,14 +61,15 @@ options:
    -h, --help                    Print this and exit.
 
 NOTES:
-In the case of INPUT_PATH being a directory, if OUTPUT_PATH is a directory each file from
-INPUT_PATH will be infused and placed in OUTPUT_PATH. If OUTPUT_PATH is a file, all files from
-INPUT_PATH will be infused and combined into OUTPUT_PATH. If OUTPUT_PATH is meant to be a
-directory, it must exist first.
+If OUTPUT_PATH is a directory then each file from INPUT_PATH will be infused and placed in
+OUTPUT_PATH. If not a directory OUTPUT_PATH is assumed to be a file, and all files from INPUT_PATH
+will be infused and combined into OUTPUT_PATH (as '-i, --infuse').
 ~~~
 
 
 ### Dependencies ###
+
+These are installed when **infuse** is installed.
 
 ~~~
 proteus:   >=0.0.x
