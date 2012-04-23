@@ -121,9 +121,11 @@ MyClass.prototype = {
 };
 ~~~
 
-And I run `infuse my-script.js script.js -d ./my-defines.js -N` (assuming I have ENVIRONMENT set to `dev`) I would get the following:
+Run `infuse my-script.js script.js -d ./my-defines.js -N` (assuming `ENVIRONMENT` is set to "dev") the following would be produced:
 
 ~~~js
+// contents of script.js
+
 var appConfig = {
     foo: "foo",
     baz: [ 1, 2, 3 ],
@@ -151,10 +153,11 @@ MyClass.prototype = {
 And the minified result (`infuse my-script.js script.js -d ./my-defines.js`) would be:
 
 ~~~js
+// contents of script.js
 function b(){}var a={foo:"foo",baz:[1,2,3],doSomething:function(){return"something"},isDebug:true};console.log("A note to the developer..."),b.prototype={appName:"My Great WebApp",authorName:"Me",specialMethod:function(){return"is debug"}}
 ~~~
 
-Note how the `if` block was removed around the `console.log` statement, since this is `dev` mode. If `ENVIRONMENT` was set to some other value, `console.log` would be removed too.
+Note how the `if` block was removed around the `console.log` statement, since this is "dev" mode. If `ENVIRONMENT` was set to some other value, `console.log` would be removed too.
 
 There are more examples in the "examples" directory. Install the development dependencies, and then run:
 
