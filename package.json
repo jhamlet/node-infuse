@@ -1,14 +1,25 @@
 {   
     "name": "infuse",
-    "description": "Mainline your node JavaScript.",
-    "version": "0.0.12",
+    "description": "Mainline your node JavaScript for use in the browser.",
+    "version": "0.0.13",
     "keywords": [
+        "javascript",
+        "js",
+        "minimizer",
+        "min",
+        "obfuscate",
+        "parser",
+        "generator",
+        "pre-processor",
         "ast",
         "inject",
         "code",
-        "minimizer",
-        "obfuscate",
-        "pre-processor"
+        "fuse",
+        "infuse",
+        "package",
+        "packager",
+        "combine",
+        "combiner"
     ],
     "main": "./lib/infuse.js",
     "bin": {
