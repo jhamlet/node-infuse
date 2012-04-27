@@ -1,6 +1,6 @@
 {   
     "name": "infuse",
-    "description": "Mainline your node JavaScript for browser consumption.",
+    "description": "Mainline your node JavaScript for universal consumption.",
     "version": "0.0.13",
     "keywords": [
         "javascript",
@@ -11,6 +11,7 @@
         "parser",
         "generator",
         "pre-processor",
+        "processor",
         "ast",
         "inject",
         "code",
