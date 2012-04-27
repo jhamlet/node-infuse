@@ -64,20 +64,21 @@ task("dir-examples", ["directories-example"]);
 desc("Generate the README.md documentation");
 file("README.md", ["README.tmpl", "package.json", "Sakefile", "lib/options.js"], function (t) {
     var _ = require("underscore"),
+        pkgInfo = JSON.parse(read("package.json", "utf8")),
         tmpl = _.template(read(t.prerequisites[0], "utf8")),
         tmplParams = {
-            dependencies: JSON.parse(read("package.json", "utf8")).dependencies,
+            pkg: pkgInfo,
             usage: ""
         }
     ;
     
-    sh("infuse -h", function (txt) {
+    sh("./bin/infuse -h", function (txt) {
         tmplParams.usage = txt.split("\n").slice(1, -2).join("\n");
         write(t.name, tmpl(tmplParams), "utf8");
     });
     
 });
-CLOBBER.include("README.md");
+CLEAN.include("README.md");
 
 task("build", ["README.md"]);
 task("default", ["build"]);

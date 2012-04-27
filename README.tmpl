@@ -1,22 +1,22 @@
-Infuse
-======
+<%=scriptName = pkg.name[0].toUpperCase() + pkg.name.slice(1)%>
+<%=Array(scriptName.length+1).join("=")%>
 
-> Mainline your node JavaScript
+> <%=pkg.description%>
 
 
 Summary
 -------
 
-**infuse** bundles up your node JavaScript files by following the `require("moduleName")` statements in your source file, and then bundles it all up, and _uglifies_ (minimizes) it into one JavaScript file.
+**<%=pkg.name%>** bundles up your node JavaScript files by following the `require("moduleName")` statements in your source file, and then bundles it all up, and _uglifies_ (minimizes) it into one JavaScript file.
 
-In addition, by utilizing [`uglify-js`'](https://github.com/mishoo/UglifyJS) ability to remove dead code, you can have **infuse** act as a pre-processor of sorts on your combined file when using the `--define` and `--define-module` options.
+In addition, by utilizing [`uglify-js`'](https://github.com/mishoo/UglifyJS) ability to remove dead code, you can have **<%=pkg.name%>** act as a pre-processor of sorts on your combined file when using the `--define` and `--define-module` options.
 
 
 Installation
 ------------
 
 ~~~
-% npm install -g infuse
+% npm install -g <%=pkg.name%>
 ~~~
 
 
@@ -24,7 +24,7 @@ Command Line Usage
 ------------------
 
 ~~~
-% infuse -h
+% <%=pkg.name%> -h
 
 <%=usage%>
 ~~~
@@ -32,14 +32,14 @@ Command Line Usage
 
 ### Dependencies ###
 
-These are installed when **infuse** is installed.
-<% var  fw = Object.keys(dependencies).reduce(function (t, c) {
+These are installed when **<%=pkg.name%>** is installed.
+<% var  fw = Object.keys(pkg.dependencies).reduce(function (t, c) {
             var len = c.length;
             return len > t ? len : t;
         }, 0),
-        deps = Object.keys(dependencies).map(function (key) {
+        deps = Object.keys(pkg.dependencies).map(function (key) {
             var pad = Array(fw - key.length + 1).join(" ");
-            return key + ": " + pad + dependencies[key];
+            return key + ": " + pad + pkg.dependencies[key];
         }).join("\n");%>
 ~~~
 <%=deps%>
@@ -49,15 +49,15 @@ These are installed when **infuse** is installed.
 Defines
 -------
 
-**infuse** now processes all `defines` itself, and the values returned from `defines` are translated into the appropriate AST structure. No need for your `define/define-module` to return an AST formatted array.
+**<%=pkg.name%>** now processes all `defines` itself, and the values returned from `defines` are translated into the appropriate AST structure. No need for your `define/define-module` to return an AST formatted array.
 
-By having **infuse** handle the `defines` in the pre-mangled/squeezed AST, if you supply the `--no-minify` flag to **infuse** you can see the _beautified_ `uglify-js` generated output without any dead-code being removed (this is helpful when reviewing what your defines are returning/generating).
+By having **<%=pkg.name%>** handle the `defines` in the pre-mangled/squeezed AST, if you supply the `--no-minify` flag to **<%=pkg.name%>** you can see the _beautified_ `uglify-js` generated output without any dead-code being removed (this is helpful when reviewing what your defines are returning/generating).
 
 
 Embedding
 ---------
 
-The **infuse** `-E, --embed` option will _infuse_ required modules as `strings` and lazy-evaluate them when used in the final script. In the case of a browser, this means appending a script element to the `head` of the document temporarily. In other cases, **infuse** goes to the _dark side_ and uses `eval`.
+The **<%=pkg.name%>** `-E, --embed` option will _infuse_ required modules as `strings` and lazy-evaluate them when used in the final script. In the case of a browser, this means appending a script element to the `head` of the document temporarily. In other cases, **<%=pkg.name%>** goes to the _dark side_ and uses `eval`.
 
 The **advantage** of embedding is that the required JavaScript modules are not evaluated until the strings are put into a script node, or `eval`'d, when needed. This facilitates faster loading of the _infused_ JavaScript file, since it is, mostly, one large string.
 
@@ -121,7 +121,7 @@ MyClass.prototype = {
 };
 ~~~
 
-Run `infuse my-script.js script.js -d ./my-defines.js -N` (assuming `ENVIRONMENT` is set to "dev") the following would be produced:
+Run `<%=pkg.name%> my-script.js script.js -d ./my-defines.js -N` (assuming `ENVIRONMENT` is set to "dev") the following would be produced:
 
 ~~~js
 // contents of script.js
@@ -150,7 +150,7 @@ MyClass.prototype = {
 };
 ~~~
 
-And the minified result (`infuse my-script.js script.js -d ./my-defines.js`) would be:
+And the minified result (`<%=pkg.name%> my-script.js script.js -d ./my-defines.js`) would be:
 
 ~~~js
 // contents of script.js
@@ -169,6 +169,6 @@ sake examples ENVIRONMENT=[dev|prod] BUILD_TYPE=[debug|release]
 More?
 -----
 
-Future plans are to have **infuse** allow you to post-process your JavaScript and manipulate the underlying _Abstract Syntax Tree_. This will allow _macros_, _replacements_, and more...
+Future plans are to have **<%=pkg.name%>** allow you to post-process your JavaScript and manipulate the underlying _Abstract Syntax Tree_. This will allow _macros_, _replacements_, and more...
 
 
