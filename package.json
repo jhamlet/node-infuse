@@ -1,6 +1,6 @@
 {   
     "name": "infuse",
-    "description": "Mainline your node JavaScript for use in the browser.",
+    "description": "Mainline your node JavaScript for browser consumption.",
     "version": "0.0.13",
     "keywords": [
         "javascript",
