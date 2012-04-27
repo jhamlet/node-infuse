@@ -1,7 +1,7 @@
 Infuse
 ======
 
-> Mainline your node JavaScript
+> Mainline your node JavaScript for use in the browser.
 
 
 Summary
