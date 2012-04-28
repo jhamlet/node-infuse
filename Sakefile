@@ -68,6 +68,7 @@ file("README.md", ["README.tmpl", "package.json", "Sakefile", "lib/options.js"],
         tmpl = _.template(read(t.prerequisites[0], "utf8")),
         tmplParams = {
             pkg: pkgInfo,
+            license: FS.readFileSync("./LICENSE", "utf8"),
             usage: ""
         }
     ;
