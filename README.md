@@ -81,6 +81,18 @@ wordwrap:  >=0.0.2
 ~~~
 
 
+### Development Dependencies ###
+
+Installed when you run `npm link` in the package directory.
+
+~~~
+mocha:      >=0.3.x
+should:     >=0.5.x
+sake:       >=0.0.x
+underscore: >=1.3.x
+~~~
+
+
 Defines
 -------
 
