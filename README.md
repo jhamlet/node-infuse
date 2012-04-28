@@ -1,15 +1,17 @@
 Infuse
 ======
 
-> Mainline your node JavaScript for browser consumption.
+> Mainline your node JavaScript for universal consumption.
 
 
 Summary
 -------
 
-**infuse** bundles up your node JavaScript files by following the `require("moduleName")` statements in your source file, and then bundles it all up, and _uglifies_ (minimizes) it into one JavaScript file.
+**Infuse** bundles up your _node_ JavaScript files by following the `require("moduleName")` statements in your source file(s), and then bundles it all up, and _uglifies_ (minimizes) it into one JavaScript file.
 
-In addition, by utilizing [`uglify-js`'](https://github.com/mishoo/UglifyJS) ability to remove dead code, you can have **infuse** act as a pre-processor of sorts on your combined file when using the `--define` and `--define-module` options.
+In addition, **infuse** can replace symbols found in the source file with JavaScript values _defined_ either with command line arguments, or through the use of another _node_ module.
+
+Coupled with [`uglify-js`'](https://github.com/mishoo/UglifyJS) ability to remove dead code, **infuse** acts as a pre-processor of sorts on your _uglified_ file when using the `--define` and `--define-module` options.
 
 
 Installation
@@ -82,23 +84,12 @@ wordwrap:  >=0.0.2
 Defines
 -------
 
-**infuse** now processes all `defines` itself, and the values returned from `defines` are translated into the appropriate AST structure. No need for your `define/define-module` to return an AST formatted array.
+**Infuse** now processes all `defines` itself, and the values returned from `defines` are translated into the appropriate AST structure. No need for your `define/define-module` to return an AST formatted array.
 
 By having **infuse** handle the `defines` in the pre-mangled/squeezed AST, if you supply the `--no-minify` flag to **infuse** you can see the _beautified_ `uglify-js` generated output without any dead-code being removed (this is helpful when reviewing what your defines are returning/generating).
 
 
-Embedding
----------
-
-The **infuse** `-E, --embed` option will _infuse_ required modules as `strings` and lazy-evaluate them when used in the final script. In the case of a browser, this means appending a script element to the `head` of the document temporarily. In other cases, **infuse** goes to the _dark side_ and uses `eval`.
-
-The **advantage** of embedding is that the required JavaScript modules are not evaluated until the strings are put into a script node, or `eval`'d, when needed. This facilitates faster loading of the _infused_ JavaScript file, since it is, mostly, one large string.
-
-
-Examples
---------
-
-### Defines ###
+### Example ###
 
 ~~~js
 // contents my-defines.js
@@ -154,7 +145,7 @@ MyClass.prototype = {
 };
 ~~~
 
-Run `infuse my-script.js script.js -d ./my-defines.js -N` (assuming `ENVIRONMENT` is set to "dev") the following would be produced:
+Running `infuse my-script.js script.js -d ./my-defines.js -N` (assuming `ENVIRONMENT` is set to "dev") the following would be produced:
 
 ~~~js
 // contents of script.js
@@ -199,9 +190,54 @@ sake examples ENVIRONMENT=[dev|prod] BUILD_TYPE=[debug|release]
 ~~~
 
 
-More?
------
+Embedding
+---------
 
-Future plans are to have **infuse** allow you to post-process your JavaScript and manipulate the underlying _Abstract Syntax Tree_. This will allow _macros_, _replacements_, and more...
+The **infuse** `-E, --embed` option will _infuse_ required modules as `strings` and lazy-evaluate them when used in the final script. In the case of a browser, this means appending a script element to the `head` of the document temporarily. In other cases, **infuse** goes to the _dark side_ and uses `eval`.
 
+The **advantage** of embedding is that the required JavaScript modules are not evaluated until the strings are put into a script node, or `eval`'d, when needed. This facilitates faster loading of the _infused_ JavaScript file, since it is, mostly, one large string.
+
+
+A Poor Man's Minifier
+---------------------
+
+You can get started quickly with **infuse** by using the `-i, --infuse PATH` option:
+
+~~~
+infuse -i path/one.js -i path/two.js -i path/three.js > compiled.js
+~~~
+
+This basically **infuses** up the individual files and automatically _de-fuses_ them when the compiled script runs.
+
+
+Caveats
+-------
+
+### Run-time variables ###
+
+Currently, **infuse** does not compute local variables, and can not determine require statements with variables defined at run-time.
+
+For example, this **will not** work, and **infuse** will throw an error:
+
+~~~
+// script.js
+
+var pkgModule = require("./" + process.env.ENVIRONMENT + "-pkg.js");
+~~~
+
+This will however:
+
+~~~
+// script.js infused with `--define PKG=prod-pkg.js`
+
+var pkgModule = require(PKG);
+~~~
+
+
+### Global scope leakage ###
+
+Since **infuse** does not do any computing of local variables, it can not determine if variables leak outside of a required module's scope. In _node_ this is not so much a problem, since each module is run in it's own context and only the items explicitly exported through `module.exports` are exposed. **Infuse** uses an anonymous function to simulate what _node_ does, however if the **infused** module doesn't locally scope a variable with the `var` keyword, that variable will be set on the _global object_ (usually the window).
+
+
+In the future, plans are to resolve the _caveats_ with more introspection of the AST parsed by _UglifyJS_. Stay tuned.
 

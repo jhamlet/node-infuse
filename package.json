@@ -1,7 +1,7 @@
 {   
     "name": "infuse",
     "description": "Mainline your node JavaScript for universal consumption.",
-    "version": "0.0.13",
+    "version": "0.0.14",
     "keywords": [
         "javascript",
         "js",
@@ -53,6 +53,9 @@
     "repository": {
         "type": "git",
         "url": "http://github.com/jhamlet/node-infuse.git"
+    },
+    "bugs": {
+        "url": "http://github.com/jhamlet/node-infuse/issues"
     },
     "preferGlobal": true
 }
