@@ -48,6 +48,22 @@ These are installed when **<%=pkg.name%>** is installed.
 ~~~
 
 
+### Development Dependencies ###
+
+Installed when you run `npm link` in the package directory.
+<% var  fw = Object.keys(pkg.devDependencies).reduce(function (t, c) {
+            var len = c.length;
+            return len > t ? len : t;
+        }, 0),
+        devDeps = Object.keys(pkg.devDependencies).map(function (key) {
+            var pad = Array(fw - key.length + 1).join(" ");
+            return key + ": " + pad + pkg.devDependencies[key];
+        }).join("\n");%>
+~~~
+<%=devDeps%>
+~~~
+
+
 Defines
 -------
 
