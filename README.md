@@ -74,9 +74,10 @@ will be infused and combined into OUTPUT_PATH (as '-i, --infuse').
 These are installed when **infuse** is installed.
 
 ~~~
-proteus:   >=0.0.x
-nomnom:    >=1.5.x
 uglify-js: >=1.2.x
+nomnom:    >=1.5.x
+resolve:   >=0.2.x
+proteus:   >=0.0.x
 wordwrap:  >=0.0.2
 ~~~
 

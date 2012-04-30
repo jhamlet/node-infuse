@@ -1,7 +1,7 @@
 {   
     "name": "infuse",
     "description": "Mainline your node JavaScript for universal consumption.",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "keywords": [
         "javascript",
         "js",
@@ -30,9 +30,10 @@
         "lib": "lib"
     },
     "dependencies": {
-        "proteus":   ">=0.0.x",
-        "nomnom":    ">=1.5.x",
         "uglify-js": ">=1.2.x",
+        "nomnom":    ">=1.5.x",
+        "resolve":   ">=0.2.x",
+        "proteus":   ">=0.0.x",
         "wordwrap":  ">=0.0.2"
     },
     "devDependencies": {
