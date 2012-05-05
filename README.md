@@ -28,10 +28,10 @@ Command Line Usage
 ~~~
 % infuse -h
 
-usage: infuse INPUT_PATH OUPUT_PATH [options]
+usage: infuse INPUT_PATH OUTPUT_PATH [options]
 
 INPUT_PATH     File or directory to read.
-OUPUT_PATH     File or directory to write to. If not specified, write to STDOUT.
+OUTPUT_PATH     File or directory to write to. If not specified, write to STDOUT.
 
 options:
    -N, --no-minify               Do not minify the output. Essentially, set `beautify` for
