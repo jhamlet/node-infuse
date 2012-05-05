@@ -85,6 +85,7 @@ file("README.md", ["README.tmpl", "package.json", "Sakefile", "lib/options.js"],
     sh("./bin/infuse -h", function (err, txt) {
         tmplParams.usage = txt.split("\n").slice(1, -2).join("\n");
         write(t.name, tmpl(tmplParams), "utf8");
+        log.info(t.name + " generated.");
     });
     
 });
