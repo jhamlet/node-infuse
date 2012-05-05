@@ -30,7 +30,12 @@ FS.readdirSync(examplesDir).forEach(function (name) {
     // We dump any infusion paths the input file may pull in, so we can add
     // them to the list of prerequisites for the file task (if they change,
     // rebuild the outputPath)
-    prereqs.include(infuse(inputPath, {dumpPaths: true}).split("\n"));
+    prereqs.include(
+        infuse(
+            inputPath,
+            {dumpPaths: true}
+        ).split("\n").filter(Boolean)
+    );
 
     // Generate the four variations of the files: minified, embedded and
     // un-minified, and embedded and un-minified.
