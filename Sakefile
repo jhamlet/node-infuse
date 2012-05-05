@@ -7,6 +7,10 @@ var infuse      = require("infuse"),
     examplesDir = "examples"
 ;
 
+sake.options.synchronous = true;
+
+require("sake/clobber");
+
 desc("Generate the example files.");
 task("examples");
 
@@ -29,7 +33,7 @@ FS.readdirSync(examplesDir).forEach(function (name) {
     prereqs.include(infuse(inputPath, {dumpPaths: true}).split("\n"));
 
     // Generate the four variations of the files: minified, embedded and
-    // minified, un-minified, and embedded and un-minified.
+    // un-minified, and embedded and un-minified.
     [ [], ["-E"], ["-N"], ["-E", "-N"] ].forEach(function (args) {
         var extMap = {"-E": "embed", "-N": "nomin"},
             outputPath = Path.join(dirName, args.reduce(function (t, c) {
@@ -73,7 +77,7 @@ file("README.md", ["README.tmpl", "package.json", "Sakefile", "lib/options.js"],
         }
     ;
     
-    sh("./bin/infuse -h", function (txt) {
+    sh("./bin/infuse -h", function (err, txt) {
         tmplParams.usage = txt.split("\n").slice(1, -2).join("\n");
         write(t.name, tmpl(tmplParams), "utf8");
     });
