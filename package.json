@@ -1,7 +1,7 @@
 {   
     "name": "infuse",
     "description": "Mainline your node JavaScript for universal consumption.",
-    "version": "0.0.16",
+    "version": "0.0.17",
     "keywords": [
         "javascript",
         "js",
