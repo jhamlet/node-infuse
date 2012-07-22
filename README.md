@@ -74,7 +74,7 @@ will be infused and combined into OUTPUT_PATH (as '-i, --infuse').
 These are installed when **infuse** is installed.
 
 ~~~
-uglify-js: >=1.2.x
+uglify-js: >=1.3.x
 nomnom:    >=1.5.x
 resolve:   >=0.2.x
 proteus:   >=0.0.x
@@ -89,7 +89,7 @@ Installed when you run `npm link` in the package directory.
 ~~~
 mocha:      >=0.3.x
 should:     >=0.5.x
-sake:       >=0.0.x
+sake:       >=0.1.x
 underscore: >=1.3.x
 ~~~
 
