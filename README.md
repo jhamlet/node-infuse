@@ -28,12 +28,12 @@ Command Line Usage
 ~~~
 % infuse -h
 
-usage: infuse INPUT_PATH OUTPUT_PATH [options]
+Usage: infuse INPUT_PATH OUTPUT_PATH [options]
 
 INPUT_PATH     File or directory to read.
 OUTPUT_PATH     File or directory to write to. If not specified, write to STDOUT.
 
-options:
+Options:
    -N, --no-minify               Do not minify the output. Essentially, set `beautify` for
                                  the UglifyJS output.
    -D, --define SYMBOL[=VALUE]   Replace all instances of the specified SYMBOL with VALUE.
@@ -41,10 +41,7 @@ options:
                                  Otherwise, VALUE will be a JSON parsed value, or plain
                                  string. Can be specified multiple times.
    -d, --define-module NAME      Will load the NAMEd module (as per require()) and 'define'
-                                 all exported properties. NOTE: if you are requiring a path
-                                 relative to the current working directory, be sure to start
-                                 your path with a './', just as you would for a node require
-                                 statement. Can be specified multiple times.
+                                 all exported properties. Can be specified multiple times.
    -E, --embed                   Embed the infused modules as strings in the final output,
                                  and lazy-evaluate them when required.
    -R, --reserved WORD           A comma-delimited list of reserved words that should NOT be
@@ -66,6 +63,7 @@ NOTES:
 If OUTPUT_PATH is a directory then each file from INPUT_PATH will be infused and placed in
 OUTPUT_PATH. If not a directory OUTPUT_PATH is assumed to be a file, and all files from INPUT_PATH
 will be infused and combined into OUTPUT_PATH (as '-i, --infuse').
+
 ~~~
 
 
