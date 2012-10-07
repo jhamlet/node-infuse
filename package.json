@@ -1,18 +1,15 @@
 {   
     "name": "infuse",
     "description": "Mainline your node JavaScript for universal consumption.",
-    "version": "0.0.18",
+    "version": "0.2.0",
     "keywords": [
         "javascript",
         "js",
-        "minimizer",
         "min",
-        "obfuscate",
         "parser",
         "generator",
         "pre-processor",
         "processor",
-        "ast",
         "inject",
         "code",
         "fuse",
@@ -22,15 +19,11 @@
         "combine",
         "combiner"
     ],
-    "main": "./lib/infuse.js",
+    "main": "./node_modules/infuse/index.js",
     "bin": {
         "infuse": "./bin/infuse"
     },
-    "directories": {
-        "lib": "lib"
-    },
     "dependencies": {
-        "uglify-js": ">=1.3.x",
         "nomnom":    ">=1.5.x",
         "resolve":   ">=0.2.x",
         "proteus":   ">=0.0.x",
@@ -42,6 +35,9 @@
         "sake":       ">=0.1.x",
         "underscore": ">=1.3.x"
     },
+    "bundledDependencies": [
+        "infuse"
+    ],
     "scripts": {
         "test": "mocha test/test-*"
     },
