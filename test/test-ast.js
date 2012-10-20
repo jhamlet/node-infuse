@@ -3,55 +3,62 @@
 var Ast = require("infuse/ast"),
     FS  = require("fs"),
     should = require("should"),
-    filepath = "./test/simple-sample.js"
+    source  = "var foo = \"foo\";",
+    filepath = "test/test-ast-sample.js",
+    ast
 ;
 
 suite("InfuseAst", function () {
     
-    test("Setup", function () {
+    setup(function () {
+        ast = new Ast(source);
+        FS.writeFileSync(filepath, "var baz = \"baz\";", "utf8");
+    });
+    
+    teardown(function () {
+        FS.unlinkSync(filepath);
+    });
+    
+    test("Static properties exist", function () {
         Ast.NODE_TYPES.should.be.a("object");
-        Ast.OPTIONS.BREAK.should.equal(1);
-        Ast.OPTIONS.SKIP.should.equal(2);
+        Ast.NODE_CHILD_KEYS.should.be.a("object");
+        Ast.TRAVERSAL_OPTIONS.BREAK.should.equal(1);
+        Ast.TRAVERSAL_OPTIONS.SKIP.should.equal(2);
     });
     
-    test("Parser", function () {
-        var content = FS.readFileSync(filepath, "utf8"),
-            parser = new Ast({ file: filepath }),
-            ast = parser.subject
-        ;
-        
-        should.exist(ast);
-        
-        ast.should.have.property("type", "Program");
-        ast.should.have.property("body");
-        ast.should.have.property("range");
-        ast.should.have.property("loc");
-        ast.should.have.property("comments");
-        ast.should.have.property("tokens");
-        
-        // [parser].join().should.equal(content);
+    test("Subject parsed correctly", function () {
+        ast.subject.should.be.a("object");
+        ast.subject.isWrapper.should.equal(true);
+        ast.subject.body[0].type.should.equal("VariableDeclaration");
+        ast.parsed.should.equal(true);
+        ast.generated.should.equal(false);
     });
     
-    test("traversal - in order", function () {
-        var parser = new Ast({ file: filepath });
-        
-        parser.traverse({
-            enter: function (node, parser) {
-                console.log("Enter: " + node.type);
-            }
-        });
+    test("Source correctly computed", function () {
+        ast.subject.should.be.a("object");
+        ast.parsed.should.equal(true);
+        ast.generated.should.equal(false);
+        ast.source.should.equal(source);
+        ast.generated.should.equal(true);
     });
     
-    test("traversal - depth first", function () {
-        var parser = new Ast({ file: filepath });
-        
-        parser.traverse({
-            leave: function (node, parser) {
-                // if (node.type === "CallExpression" && node.callee && node.callee.name === "require") {
-                //     console.log(node);
-                // }
-                console.log("Leave: " + node.type);
-            }
-        });
+    test("Source from file", function () {
+        var ast = new Ast({ file: filepath });
+        ast.subject.should.be.a("object");
+        ast.subject.isWrapper.should.equal(true);
+        ast.subject.body[0].type.should.equal("VariableDeclaration");
+        ast.parsed.should.equal(true);
+        ast.generated.should.equal(false);
+        ast.source.should.equal(FS.readFileSync(filepath, "utf8"));
+        ast.generated.should.equal(true);
+    });
+
+    test("Setting file property resets source", function () {
+        ast.source.should.equal(source);
+        ast.file = filepath;
+        should.not.exist(ast.options.source);
+        ast.source.should.not.equal(source);
+        ast.source.should.equal(FS.readFileSync(filepath, "utf8"));
+        ast.generated.should.equal(true);
     });
 });
