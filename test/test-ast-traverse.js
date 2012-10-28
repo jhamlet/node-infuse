@@ -1,6 +1,7 @@
 /*globals suite, setup, test */
 
 var Esprima = require("esprima"),
+    nodeWrapper = require("infuse/ast/node-wrapper"),
     traverse = require("infuse/ast/traverse"),
     should = require("should"),
     nutil   = require("util"),
@@ -13,7 +14,7 @@ var Esprima = require("esprima"),
 suite("AST - traverse", function () {
     
     setup(function () {
-        ast = Esprima.parse(source);
+        ast = nodeWrapper(Esprima.parse(source));
         // console.log(JSON.stringify(ast, null, 4));
     });
     

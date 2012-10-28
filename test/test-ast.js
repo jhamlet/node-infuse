@@ -20,10 +20,9 @@ suite("InfuseAst", function () {
     });
     
     test("Static properties exist", function () {
-        Ast.NODE_TYPES.should.be.a("object");
-        Ast.NODE_CHILD_KEYS.should.be.a("object");
         Ast.TRAVERSAL_OPTIONS.BREAK.should.equal(1);
         Ast.TRAVERSAL_OPTIONS.SKIP.should.equal(2);
+        Ast.TRAVERSAL_OPTIONS.REVISIT.should.equal(3);
     });
     
     test("Subject parsed correctly", function () {
