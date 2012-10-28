@@ -22,7 +22,7 @@ suite("AST - NodeWrapper", function () {
         node.update.should.be.a("function");
         node.inspect.should.be.a("function");
         
-        node.childKeys.length.should.above(0);
+        node.childKeys.length.should.be.above(0);
         node.childKeys.should.include("body");
         
         node.childNodes.length.should.equal(1);
@@ -59,7 +59,7 @@ suite("AST - NodeWrapper", function () {
         child.hasOwnProperty("type").should.equal(false);
         // wrapper properties function
         child.isWrapper.should.equal(true);
-        child.hasOwnProperty("isWrapper").should.equal(true);
+        // child.hasOwnProperty("isWrapper").should.equal(true);
         // parent references work
         (child.parent.parent.parent === node).should.equal(true);
         // The following doesn't work -- should is doing something with the inspect function
@@ -67,5 +67,27 @@ suite("AST - NodeWrapper", function () {
 
         // stringify
         child.toString().should.equal("\"foo\"");
+    });
+    
+    test("Accessing child properties should propagate from subject", function () {
+        var node = nodeWrapper(ast),
+            child
+        ;
+        
+        node.body = [{
+            type: "ExpressionStatement",
+            expression: { type: "Identifier", name: "foo" }
+        }];
+        
+        node.toString().should.equal("foo;");
+
+        child = node.body[0];
+
+        node.childNodes[0].should.equal(child);
+        
+        child.isWrapper.should.equal(true);
+        child.type.should.equal("ExpressionStatement");
+        child.expression.type.should.equal("Identifier");
+        child.expression.name.should.equal("foo");
     });
 });
