@@ -7,7 +7,7 @@ var Infuser = require("infuse/infuser"),
 
 suite("Infuser", function () {
     
-    test("Find the Identifier nodes", function () {
+    test("All Identifier nodes", function () {
         var ast = new Ast({
                 source: source
             }),
@@ -27,7 +27,7 @@ suite("Infuser", function () {
         seen.should.equal(5);
     });
     
-    test("Find named Identifier nodes", function () {
+    test("Identifier[name='foo']", function () {
         var ast = new Ast({
                 source: source
             }),
@@ -36,7 +36,7 @@ suite("Infuser", function () {
         ;
         
         infuser.use({
-            '[type="Identifier"][name="foo"]': function (node, infuser) {
+            'Identifier[name="foo"]': function (node, infuser) {
                 seen++;
                 node.type.should.equal("Identifier");
                 node.name.should.equal("foo");
@@ -46,5 +46,34 @@ suite("Infuser", function () {
         infuser.run(ast);
         
         seen.should.equal(3);
+    });
+    
+    test("CallExpression > Identifier[name = require]", function () {
+        var ast = new Ast({
+                source: "var foo = require('foo'), baz = window.require('baz');"
+            }),
+            infuser = new Infuser(),
+            bareSeen = 0,
+            totalSeen = 0
+        ;
+        
+        // console.log(JSON.stringify(ast, null, 4));
+        
+        infuser.use({
+            // this should fire both 'require' statements
+            "CallExpression Identifier[name='require']": function (node, infuser) {
+                totalSeen++;
+            },
+            // this should only fire for the bare 'require'
+            "CallExpression > Identifier[name = require]": function (node, infuser) {
+                bareSeen++;
+                node.parent.arguments[0].value.should.equal("foo");
+            }
+        });
+        
+        infuser.run(ast);
+        
+        bareSeen.should.equal(1);
+        totalSeen.should.equal(2);
     });
 });
