@@ -155,6 +155,26 @@ suite("QueryParser", function () {
         rule.selectors[1].value.should.equal("BlockStatement");
     });
 
+    test("Parse Rule: Identifier[name = 'foo'] + Literal", function () {
+        var rule;
+        
+        rule = QueryParser.parseRule(new StrScanner("Identifier[name = 'foo'] + Literal"));
+        rule.selectors[0].type.should.equal(Selector.TYPES.SELF);
+        rule.selectors[0].attribute.should.equal("type");
+        rule.selectors[0].comparator.should.equal("=");
+        rule.selectors[0].value.should.equal("Identifier");
+        
+        rule.selectors[1].type.should.equal(Selector.TYPES.SIBLING);
+        rule.selectors[1].attribute.should.equal("name");
+        rule.selectors[1].comparator.should.equal("=");
+        rule.selectors[1].value.should.equal("foo");
+
+        rule.selectors[2].type.should.equal(Selector.TYPES.SELF);
+        rule.selectors[2].attribute.should.equal("type");
+        rule.selectors[2].comparator.should.equal("=");
+        rule.selectors[2].value.should.equal("Literal");
+    });
+
     test("Parse Rule: FunctionExpression > BlockStatement Identifier", function () {
         var rule;
         

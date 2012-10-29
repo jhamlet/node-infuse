@@ -2,11 +2,11 @@
 
 var Selector = require("infuse/ast/query/selector"),
     Ast      = require("infuse/ast"),
-    source   = "var foo = 'foo'; function baz (arg) { return arg; }; console.log(baz(foo));",
+    source   = "var foo = 'foo'; function baz (arg, argB) { return arg; }; console.log(baz(foo));",
     ast      = new Ast({ source: source })
 ;
 
-// console.log(JSON.stringify(ast, null, 4));
+// console.log(JSON.stringify (ast, null, 4));
 
 suite("QuerySelector", function () {
 
@@ -40,7 +40,7 @@ suite("QuerySelector", function () {
         comps["|="]("foo-baz-bar", "fuz").should.equal(false);
     });
     
-    test("Test Strategies", function () {
+    test("Self Test Strategy", function () {
         var tests = Selector.TESTS,
             subj
         ;
@@ -48,14 +48,37 @@ suite("QuerySelector", function () {
         subj = ast.subject;
         tests.self(subj, "type", "=", "Program").should.equal(true);
         tests.self(subj, "type", "=", "*").should.equal(true);
+    });
+    
+    test("Parent Test Strategy", function () {
+        var tests = Selector.TESTS,
+            subj
+        ;
         
         subj = ast.subject.body[0];
         tests.parent(subj, "type", "=", "Program").should.equal(ast.subject);
         tests.parent(subj, "type", "=", "*").should.equal(ast.subject);
-        
+
+        subj = ast.subject.body[1].body.body[0];
+        tests.parent(subj, "type", "=", "BlockStatement").should.equal(subj.parent);
+    });
+    
+    test("Ancestor Test Stratagey", function () {
+        var tests = Selector.TESTS,
+            subj
+        ;
+
         subj = ast.subject.body[1].body.body[0];
         tests.ancestor(subj, "type", "=", "Program").should.equal(ast.subject);
-        tests.parent(subj, "type", "=", "BlockStatement").should.equal(subj.parent);
+    });
+    
+    test("Sibling Test Strategy", function () {
+        var tests = Selector.TESTS,
+            subj
+        ;
+        
+        subj = ast.subject.body[1].params[1];
+        tests.sibling(subj, "type", "=", "Identifier").should.equal(subj.parent.params[0]);
     });
     
     test("Test selector#test", function () {
