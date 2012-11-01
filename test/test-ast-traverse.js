@@ -1,7 +1,7 @@
 /*globals suite, setup, test */
 
 var Esprima = require("esprima"),
-    nodeWrapper = require("infuse/ast/node-wrapper"),
+    nodeWrapper = require("infuse/ast/node"),
     traverse = require("infuse/ast/traverse"),
     should = require("should"),
     nutil   = require("util"),
