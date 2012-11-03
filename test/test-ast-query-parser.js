@@ -87,6 +87,30 @@ suite("QueryParser", function () {
         sel.value.should.equal("FunctionExpression");
     });
     
+    test("Parse Rule: VariableDeclarations.declarations > Identifier[name = 'foo']", function () {
+        var rule;
+        
+        rule = QueryParser.parseRule(new StrScanner("VariableDeclarations.declarations > Identifier[name = 'foo']"));
+        
+        rule.selectors[0].type.should.equal(Selector.TYPES.SELF);
+        rule.selectors[0].attribute.should.equal("type");
+        rule.selectors[0].comparator.should.equal("=");
+        rule.selectors[0].value.should.equal("VariableDeclarations");
+
+        rule.selectors[1].type.should.equal(Selector.TYPES.MEMBER);
+        rule.selectors[1].attribute.should.equal("declarations");
+
+        rule.selectors[2].type.should.equal(Selector.TYPES.SELF);
+        rule.selectors[2].attribute.should.equal("type");
+        rule.selectors[2].comparator.should.equal("=");
+        rule.selectors[2].value.should.equal("Identifier");
+
+        rule.selectors[3].type.should.equal(Selector.TYPES.SELF);
+        rule.selectors[3].attribute.should.equal("name");
+        rule.selectors[3].comparator.should.equal("=");
+        rule.selectors[3].value.should.equal("foo");
+    });
+    
     test("Parse Rule: Identifier[name = 'foo']", function () {
         var rule;
         
@@ -211,7 +235,7 @@ suite("QueryParser", function () {
     });
     
     (function () {
-        var group = "Identifier[name = 'foo'], FunctionExpression > BlockStatement , " + 
+        var group = "Identifier[name = 'foo'], FunctionExpression > BlockStatement, " + 
                 "FunctionExpression > BlockStatement Identifier"
         ;
         

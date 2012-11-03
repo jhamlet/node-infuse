@@ -15,25 +15,28 @@ suite("QuerySelector", function () {
         
         comps["="]("foo", "foo").should.equal(true);
         comps["="]("foo", "baz").should.equal(false);
-        comps
+        
+        comps["!="]("foo", "foo").should.equal(false);
+        comps["!="]("foo", "baz").should.equal(true);
+
         comps["^="]("foo-baz", "foo").should.equal(true);
         comps["^="]("foo-baz", "baz").should.equal(false);
         comps
         comps["$="]("foo-baz", "baz").should.equal(true);
         comps["$="]("foo-baz", "foo").should.equal(false);
-        comps
+
         comps["~="]("foo baz", "baz").should.equal(true);
         comps["~="]("foo baz", "foo").should.equal(true);
         comps["~="]("foo baz", "bar").should.equal(false);
-        comps
+
         comps["*="]("foo baz", "baz").should.equal(true);
         comps["*="]("foo baz", "foo").should.equal(true);
         comps["*="]("foo baz", "bar").should.equal(false);
-        comps
+
         comps["|="]("foo-baz", "baz").should.equal(false);
         comps["|="]("foo-baz", "foo").should.equal(true);
         comps["|="]("foo-baz", "bar").should.equal(false);
-        comps
+
         comps["|="]("foo-baz-bar", "foo").should.equal(true);
         comps["|="]("foo-baz-bar", "baz").should.equal(true);
         comps["|="]("foo-baz-bar", "bar").should.equal(false);
@@ -79,6 +82,15 @@ suite("QuerySelector", function () {
         
         subj = ast.subject.body[1].params[1];
         tests.sibling(subj, "type", "=", "Identifier").should.equal(subj.parent.params[0]);
+    });
+    
+    test("Member Test Strategy", function () {
+        var tests = Selector.TESTS,
+            subj
+        ;
+        
+        subj = ast.subject.body[0];
+        tests.member(subj.declarations[0], "declarations", "=", subj.declarations[0]).should.equal(subj);
     });
     
     test("Test selector#test", function () {

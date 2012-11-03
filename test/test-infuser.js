@@ -65,7 +65,7 @@ suite("Infuser", function () {
                 totalSeen++;
             },
             // this should only fire for the bare 'require'
-            "call > id[name = require]": function (node, infuser) {
+            "call.callee > id[name = require]": function (node, infuser) {
                 bareSeen++;
                 node.parent.arguments[0].value.should.equal("foo");
             }
