@@ -1,7 +1,7 @@
 /*globals suite, setup, test */
 
 var Infuser = require('infuse/infuser'),
-    definesInfusion = require('infuse/infusions/defines.js'),
+    definesInfusion = require('infuse/infusions/defines'),
     srcfile = __dirname + '/src-infusion-defines.js'
 ;
 
@@ -110,4 +110,28 @@ suite('Infusions - defines', function () {
             ast = infuser.run(srcfile);
         }).should.throw();
     });
+    
+    test('Call Function with nested Call Function with nested define', function () {
+        var infuser = new Infuser(),
+            obj = {
+                INFUSE_FOO: 'foo',
+                INFUSE_BAZ: function (name) {
+                    return (name || 'baz') + '-baz';
+                },
+                INFUSE_BAR: function (name) {
+                    return name + '-bar';
+                }
+            },
+            ast
+        ;
+        
+        infuser.use(definesInfusion(obj));
+        
+        ast = infuser.run(srcfile);
+        ast.subject.body[0].declarations[3].id.name.should.equal('barBaz');
+        ast.subject.body[0].declarations[3].init.type.should.equal('Literal');
+        ast.subject.body[0].declarations[3].init.value.should.equal('foo-baz-bar');
+        
+        // console.log(ast.source);
+    })
 });

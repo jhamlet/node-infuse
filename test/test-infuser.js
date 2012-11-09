@@ -77,4 +77,36 @@ suite('Infuser', function () {
         bareSeen.should.equal(1);
         totalSeen.should.equal(2);
     });
+    
+    test('.callee[name="require"]', function () {
+        var infuser = new Infuser(),
+            seen = 0
+        ;
+        
+        infuser.use({
+            '.callee[name="require"]': function (node) {
+                seen++;
+            }
+        });
+        
+        infuser.run(srcfile);
+        
+        seen.should.equal(1);
+    });
+
+    test('lit[value="fn"]', function () {
+        var infuser = new Infuser(),
+            seen = 0
+        ;
+        
+        infuser.use({
+            'lit[value="fn"]': function (node) {
+                seen++;
+            }
+        });
+        
+        infuser.run(srcfile);
+        
+        seen.should.equal(1);
+    });
 });
