@@ -2,7 +2,7 @@
 
 var Infuser = require('infuse/infuser'),
     definesInfusion = require('infuse/infusions/defines'),
-    srcfile = __dirname + '/src-infusion-defines.js'
+    srcfile = 'test-src/src-infusion-defines.js'
 ;
 
 suite('Infusions - defines', function () {
