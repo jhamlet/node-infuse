@@ -1,8 +1,7 @@
 /*globals suite, setup, test */
 
 var Infuser  = require('infuse/infuser'),
-    requires = require('infuse/infusions/requires'),
-    srcfile  = 'test-src/src-infusion-defines.js'
+    requires = require('infuse/extracts/requires')
 ;
 
 suite('Infuser - Requires', function () {

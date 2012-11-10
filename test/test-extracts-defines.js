@@ -1,18 +1,18 @@
 /*globals suite, setup, test */
 
 var Infuser = require('infuse/infuser'),
-    definesInfusion = require('infuse/infusions/defines'),
-    srcfile = 'test-src/src-infusion-defines.js'
+    defines = require('infuse/extracts/defines'),
+    srcfile = 'test-src/extracts-defines.js'
 ;
 
-suite('Infusions - defines', function () {
+suite('Extracts - defines', function () {
     
     test('Simple replacement', function () {
         var infuser = new Infuser(),
             ast
         ;
         
-        infuser.use(definesInfusion({
+        infuser.use(defines({
             INFUSE_FOO: 'foo'
         }));
         
@@ -29,7 +29,7 @@ suite('Infusions - defines', function () {
             ast
         ;
         
-        infuser.use(definesInfusion(obj));
+        infuser.use(defines(obj));
         
         ast = infuser.run(srcfile);
         ast.subject.body[0].declarations[0].id.name.should.equal('foo');
@@ -51,7 +51,7 @@ suite('Infusions - defines', function () {
             ast
         ;
         
-        infuser.use(definesInfusion(obj));
+        infuser.use(defines(obj));
         
         ast = infuser.run(srcfile);
         ast.subject.body[0].declarations[0].id.name.should.equal('foo');
@@ -68,7 +68,7 @@ suite('Infusions - defines', function () {
             ast
         ;
         
-        infuser.use(definesInfusion(obj));
+        infuser.use(defines(obj));
         
         ast = infuser.run(srcfile);
         ast.subject.body[0].declarations[1].id.name.should.equal('baz');
@@ -87,7 +87,7 @@ suite('Infusions - defines', function () {
             ast
         ;
         
-        infuser.use(definesInfusion(obj));
+        infuser.use(defines(obj));
         
         ast = infuser.run(srcfile);
         ast.subject.body[0].declarations[2].id.name.should.equal('bar');
@@ -104,7 +104,7 @@ suite('Infusions - defines', function () {
             ast
         ;
         
-        infuser.use(definesInfusion(obj));
+        infuser.use(defines(obj));
         
         (function () {
             ast = infuser.run(srcfile);
@@ -125,7 +125,7 @@ suite('Infusions - defines', function () {
             ast
         ;
         
-        infuser.use(definesInfusion(obj));
+        infuser.use(defines(obj));
         
         ast = infuser.run(srcfile);
         ast.subject.body[0].declarations[3].id.name.should.equal('barBaz');
