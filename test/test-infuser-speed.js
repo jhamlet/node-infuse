@@ -49,11 +49,18 @@ suite("Infuser Speed Tests", function () {
             then
         ;
 
-        function walk (node) {
+        function walk (node, parent) {
+            var children;
+            
             count++;
-            wrapNode(node).childNodes.forEach(function (child) {
-                walk(child);
-            });
+            wrapNode(node, parent);
+            children = node.childNodes;
+            
+            if (children) {
+                children.forEach(function (child) {
+                    walk(child, node);
+                });
+            }
         }
         
         then = Date.now();
