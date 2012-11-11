@@ -1,22 +1,23 @@
 /*globals suite, setup, test */
 
-var Infuser = require('infuse/infuser'),
-    defines = require('infuse/extracts/defines'),
-    srcfile = 'test-src/extracts-defines.js'
+var Infuser         = require('infuse/infuser'),
+    DefinesExtract  = require('infuse/extracts/defines'),
+    srcfile         = 'test-src/extracts-defines.js'
 ;
 
-suite('Extracts - defines', function () {
+suite('DefinesExtract', function () {
     
     test('Simple replacement', function () {
         var infuser = new Infuser(),
             ast
         ;
         
-        infuser.use(defines({
+        infuser.use(new DefinesExtract({
             INFUSE_FOO: 'foo'
         }));
         
         ast = infuser.run(srcfile);
+        
         ast.subject.body[0].declarations[0].id.name.should.equal('foo');
         ast.subject.body[0].declarations[0].init.value.should.equal('foo');
     });
@@ -29,7 +30,7 @@ suite('Extracts - defines', function () {
             ast
         ;
         
-        infuser.use(defines(obj));
+        infuser.use(new DefinesExtract(obj));
         
         ast = infuser.run(srcfile);
         ast.subject.body[0].declarations[0].id.name.should.equal('foo');
@@ -51,7 +52,7 @@ suite('Extracts - defines', function () {
             ast
         ;
         
-        infuser.use(defines(obj));
+        infuser.use(new DefinesExtract(obj));
         
         ast = infuser.run(srcfile);
         ast.subject.body[0].declarations[0].id.name.should.equal('foo');
@@ -68,7 +69,7 @@ suite('Extracts - defines', function () {
             ast
         ;
         
-        infuser.use(defines(obj));
+        infuser.use(new DefinesExtract(obj));
         
         ast = infuser.run(srcfile);
         ast.subject.body[0].declarations[1].id.name.should.equal('baz');
@@ -87,7 +88,7 @@ suite('Extracts - defines', function () {
             ast
         ;
         
-        infuser.use(defines(obj));
+        infuser.use(new DefinesExtract(obj));
         
         ast = infuser.run(srcfile);
         ast.subject.body[0].declarations[2].id.name.should.equal('bar');
@@ -104,7 +105,7 @@ suite('Extracts - defines', function () {
             ast
         ;
         
-        infuser.use(defines(obj));
+        infuser.use(new DefinesExtract(obj));
         
         (function () {
             ast = infuser.run(srcfile);
@@ -125,9 +126,10 @@ suite('Extracts - defines', function () {
             ast
         ;
         
-        infuser.use(defines(obj));
+        infuser.use(new DefinesExtract(obj));
         
         ast = infuser.run(srcfile);
+        
         ast.subject.body[0].declarations[3].id.name.should.equal('barBaz');
         ast.subject.body[0].declarations[3].init.type.should.equal('Literal');
         ast.subject.body[0].declarations[3].init.value.should.equal('foo-baz-bar');
