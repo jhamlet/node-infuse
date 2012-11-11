@@ -47,6 +47,8 @@ suite('Extract', function () {
         
         extract = new Chamomile();
         // test
+        extract.should.have.ownProperty('rules');
+        extract.should.have.ownProperty('events');
         extract.rules['Rule A']().should.equal('a');
         extract.rules['Rule B']().should.equal('b');
         extract.rules['Rule C']().should.not.equal('c');
