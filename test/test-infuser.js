@@ -23,9 +23,11 @@ suite('Infuser', function () {
         ;
         
         infuser.use({
-            'Identifier': function (node, infuser) {
-                seen++;
-                node.type.should.equal('Identifier');
+            rules: {
+                'Identifier': function (node, infuser) {
+                    seen++;
+                    node.type.should.equal('Identifier');
+                }
             }
         });
         
@@ -40,10 +42,12 @@ suite('Infuser', function () {
         ;
         
         infuser.use({
-            'Identifier[name="foo"]': function (node, infuser) {
-                seen++;
-                node.type.should.equal('Identifier');
-                node.name.should.equal('foo');
+            rules: {
+                'Identifier[name="foo"]': function (node, infuser) {
+                    seen++;
+                    node.type.should.equal('Identifier');
+                    node.name.should.equal('foo');
+                }
             }
         });
         
@@ -61,14 +65,16 @@ suite('Infuser', function () {
         // console.log(JSON.stringify(ast, null, 4));
         
         infuser.use({
-            // this should fire both 'require' statements
-            'CallExpression Identifier[name="require"]': function (node, infuser) {
-                totalSeen++;
-            },
-            // this should only fire for the bare 'require'
-            'call.callee > id[name = require]': function (node, infuser) {
-                bareSeen++;
-                node.parent.arguments[0].value.should.equal('fn');
+            rules: {
+                // this should fire both 'require' statements
+                'CallExpression Identifier[name="require"]': function (node, infuser) {
+                    totalSeen++;
+                },
+                // this should only fire for the bare 'require'
+                'call.callee > id[name = require]': function (node, infuser) {
+                    bareSeen++;
+                    node.parent.arguments[0].value.should.equal('fn');
+                }
             }
         });
         
@@ -84,8 +90,10 @@ suite('Infuser', function () {
         ;
         
         infuser.use({
-            '.callee[name="require"]': function (node) {
-                seen++;
+            rules: {
+                '.callee[name="require"]': function (node) {
+                    seen++;
+                }
             }
         });
         
@@ -100,8 +108,10 @@ suite('Infuser', function () {
         ;
         
         infuser.use({
-            'lit[value="fn"]': function (node) {
-                seen++;
+            rules: {
+                'lit[value="fn"]': function (node) {
+                    seen++;
+                }
             }
         });
         
