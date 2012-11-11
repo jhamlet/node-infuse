@@ -11,6 +11,11 @@ var Selector = require("infuse/ast/query/selector"),
 
 suite("QuerySelector", function () {
 
+    setup(function () {
+        // traverse the node hierarchy to make sure all nodes are properly wrapped
+        ast.traverse({});
+    });
+    
     test("Comparison strategies", function () {
         var comps = Selector.COMPARISONS;
         
@@ -59,11 +64,11 @@ suite("QuerySelector", function () {
             subj
         ;
         
-        subj = wrapNode(ast.subject.body[0], ast.subject);
+        subj = ast.subject.body[0];
         tests.parent(subj, "type", "=", "Program").should.equal(ast.subject);
         tests.parent(subj, "type", "=", "*").should.equal(ast.subject);
 
-        subj = wrapNode(ast.subject.body[1].body.body[0], ast.subject.body[1].body);
+        subj = ast.subject.body[1].body.body[0];
         tests.parent(subj, "type", "=", "BlockStatement").should.equal(subj.parent);
     });
     
@@ -72,7 +77,7 @@ suite("QuerySelector", function () {
             subj
         ;
 
-        subj = wrapNode(ast.subject.body[1].body.body[0]);
+        subj = ast.subject.body[1].body.body[0];
         tests.ancestor(subj, "type", "=", "Program").should.equal(ast.subject);
     });
     
@@ -81,7 +86,7 @@ suite("QuerySelector", function () {
             subj
         ;
         
-        subj = wrapNode(ast.subject.body[1].params[1]);
+        subj = ast.subject.body[1].params[1];
         tests.sibling(subj, "type", "=", "Identifier").should.equal(subj.parent.params[0]);
     });
     
@@ -90,7 +95,7 @@ suite("QuerySelector", function () {
             subj
         ;
         
-        subj = wrapNode(ast.subject.body[0]);
+        subj = ast.subject.body[0];
         tests.member(subj.declarations[0], "declarations", "=", subj.declarations[0]).should.equal(subj);
     });
     
@@ -103,7 +108,7 @@ suite("QuerySelector", function () {
         sel = new Selector("type");
         sel.test(subj).should.equal(true)
         
-        subj = wrapNode(ast.subject.body[0]);
+        subj = ast.subject.body[0];
         sel = new Selector("type", "=", "Program");
         sel.type = Selector.TYPES.PARENT;
         sel.test(subj).should.equal(ast.subject);
@@ -111,7 +116,7 @@ suite("QuerySelector", function () {
         sel.type = Selector.TYPES.PARENT;
         sel.test(subj).should.equal(ast.subject);
         
-        subj = wrapNode(ast.subject.body[1].body.body[0]);
+        subj = ast.subject.body[1].body.body[0];
         sel = new Selector("type", "=", "Program");
         sel.type = Selector.TYPES.ANCESTOR;
         sel.test(subj).should.equal(ast.subject);

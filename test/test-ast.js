@@ -27,7 +27,6 @@ suite("InfuseAst", function () {
     
     test("Subject parsed correctly", function () {
         ast.subject.should.be.a("object");
-        ast.subject.isWrapper.should.equal(true);
         ast.subject.body[0].type.should.equal("VariableDeclaration");
         ast.parsed.should.equal(true);
         ast.generated.should.equal(false);
@@ -44,7 +43,6 @@ suite("InfuseAst", function () {
     test("Source from file", function () {
         var ast = new Ast({ file: filepath });
         ast.subject.should.be.a("object");
-        ast.subject.isWrapper.should.equal(true);
         ast.subject.body[0].type.should.equal("VariableDeclaration");
         ast.parsed.should.equal(true);
         ast.generated.should.equal(false);

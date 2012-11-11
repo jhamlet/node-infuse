@@ -18,11 +18,9 @@ suite("AST - NodeWrapper", function () {
     test("Basic wrapper functionality", function () {
         var node = nodeWrapper(ast);
         
-        node.isWrapper.should.equal(true);
         node.update.should.be.a("function");
         
-        node.childNodes.length.should.equal(1);
-        node.childNodes[0].isWrapper.should.equal(true);
+        node.getChildNodes().length.should.equal(1);
 
         node.toString().should.equal("var foo = \"foo\";");
     });
@@ -32,12 +30,10 @@ suite("AST - NodeWrapper", function () {
             child;
         
         // Grab the string literal token
-        child = node.childNodes[0].childNodes[0].childNodes[1];
+        child = node.getChildNodes()[0].getChildNodes()[0].getChildNodes()[1];
         // Prototype properties bubble...
         child.type.should.equal("Literal");
         // wrapper properties function
-        child.isWrapper.should.equal(true);
-        // child.hasOwnProperty("isWrapper").should.equal(true);
         // parent references work
         (child.parent.parent.parent === node).should.equal(true);
 
@@ -59,9 +55,8 @@ suite("AST - NodeWrapper", function () {
 
         child = node.body[0];
 
-        node.childNodes[0].should.equal(child);
+        node.getChildNodes()[0].should.equal(child);
         
-        child.isWrapper.should.equal(true);
         child.type.should.equal("ExpressionStatement");
         child.expression.type.should.equal("Identifier");
         child.expression.name.should.equal("foo");

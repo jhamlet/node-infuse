@@ -54,7 +54,7 @@ suite("Infuser Speed Tests", function () {
             
             count++;
             wrapNode(node, parent);
-            children = node.childNodes;
+            children = node.getChildNodes();
             
             if (children) {
                 children.forEach(function (child) {
@@ -69,56 +69,13 @@ suite("Infuser Speed Tests", function () {
         console.log("%s nodes: %sms", count, Date.now() - then);
     });
 
-    test('Recursive walk, faking childKeys/childNodes', function () {
-        var 
-            ast = Esprima.parse(FS.readFileSync(srcfile, 'utf8')),
-            isArray = Array.isArray,
-            count = 0,
-            then
-        ;
-
-        function walk (node) {
-            count++;
-            node.childKeys = childKeys[node.type];
-            wrapNode.properties.childNodes.get.call(node).forEach(function (child) {
-                walk(child);
-            });
-        }
-        
-        then = Date.now();
-        walk(ast);
-        
-        console.log("%s nodes: %sms", count, Date.now() - then);
-    });
-    
-    // test('Raw object used as extract', function () {
-    //     var seen = false;
-    //     
-    //     infuser.use({
-    //         rules: {
-    //             'Identifier': function (node) {
-    //                 seen = true;
-    //                 node.type.should.equal('Identifier');
-    //             }
-    //         }
-    //     });
-    //     
-    //     infuser.run(srcfile);
-    //     seen.should.equal(true);
-    // });
-    // 
-    // test('Extract', function () {
-    //     // var defines = new DefinesExtract({});
-    //     var defines = new Extract();
-    //     infuser.use(defines);
-    //     infuser.run(srcfile);
-    // });
-    
     test('Straight AST Traversal', function () {
         var ast = new Ast({ file: srcfile }),
             count = 0,
             then
         ;
+        // make sure parsing and what not is already complete before we time the traversal
+        ast.subject;
         
         then = Date.now();
         ast.traverse({
@@ -132,4 +89,28 @@ suite("Infuser Speed Tests", function () {
         
         console.log("%s nodes: %sms", count, Date.now() - then);
     });
+
+    test('Raw object used as extract', function () {
+        var seen = false;
+        
+        infuser.use({
+            rules: {
+                'Identifier': function (node) {
+                    seen = true;
+                    node.type.should.equal('Identifier');
+                }
+            }
+        });
+        
+        infuser.run(srcfile);
+        seen.should.equal(true);
+    });
+    
+    test('Extract', function () {
+        // var defines = new DefinesExtract({});
+        var defines = new Extract();
+        infuser.use(defines);
+        infuser.run(srcfile);
+    });
+    
 });
