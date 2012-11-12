@@ -9,6 +9,7 @@ var Infuser = require('infuse/infuser'),
     FS      = require('fs'),
     wrapNode = require('infuse/ast/node'),
     srcfile = 'test-src/underscore.js'
+    // srcfile = '/Users/jhamlet/Desktop/sample.js'
 ;
 
 suite("Infuser Speed Tests", function () {
@@ -90,7 +91,7 @@ suite("Infuser Speed Tests", function () {
         console.log("%s nodes: %sms", count, Date.now() - then);
     });
 
-    test('Raw object used as extract', function () {
+    test('Infuser - Raw object used as extract', function () {
         var seen = false;
         
         infuser.use({
@@ -106,7 +107,7 @@ suite("Infuser Speed Tests", function () {
         seen.should.equal(true);
     });
     
-    test('Extract', function () {
+    test('Infuser - Extract', function () {
         var insertions = new DefinesExtract({});
         infuser.use(insertions);
         infuser.run(srcfile);
