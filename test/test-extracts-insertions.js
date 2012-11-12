@@ -5,7 +5,7 @@ var Infuser         = require('infuse/infuser'),
     srcfile         = 'test-src/extracts-insertions.js'
 ;
 
-suite('DefinesExtract', function () {
+suite('Extract - Insertions', function () {
     
     test('Simple replacement', function () {
         var infuser = new Infuser(),
