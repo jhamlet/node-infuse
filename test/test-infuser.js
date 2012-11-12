@@ -202,4 +202,32 @@ suite('Infuser', function () {
         
         infuser.run(srcfile);
     });
+    
+    test('Modified nodes are re-traversed', function () {
+        var 
+            infuser = new Infuser(),
+            ast
+        ;
+        
+        infuser.use({
+            rules: {
+                'id[name=FOO]': function (node, infuser) {
+                    node.update({
+                        type: 'Literal',
+                        value: 'foo'
+                    });
+                },
+                'id[name=BAZ]': function (node, infuser) {
+                    node.update({
+                        type: 'Identifier',
+                        name: 'FOO'
+                    });
+                }
+            }
+        });
+        
+        ast = infuser.run('test-src/infuser-b.js');
+        
+        ast.source.should.equal('var fooBaz = "foo";');
+    });
 });
