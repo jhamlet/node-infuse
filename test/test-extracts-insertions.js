@@ -1,8 +1,8 @@
 /*globals suite, setup, test */
 
 var Infuser         = require('infuse/infuser'),
-    DefinesExtract  = require('infuse/extracts/defines'),
-    srcfile         = 'test-src/extracts-defines.js'
+    DefinesExtract  = require('infuse/extracts/insertions'),
+    srcfile         = 'test-src/extracts-insertions.js'
 ;
 
 suite('DefinesExtract', function () {
@@ -77,7 +77,7 @@ suite('DefinesExtract', function () {
         ast.subject.body[0].declarations[1].init.value.should.equal('baz');
     });
     
-    test('Call function replacement with nested defines', function () {
+    test('Call function replacement with nested insertions', function () {
         var infuser = new Infuser(),
             obj = {
                 INFUSE_FOO: 'foo',
