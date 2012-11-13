@@ -50,11 +50,11 @@ suite("AST - parse", function () {
     
     test("Source argument preempts options", function () {
         var ast = parse("var baz = \"baz\";", { source: source, file: filepath }),
-            token = ast.tokens[1]
+            token = ast.body[0].declarations[0].id
         ;
         
         token.type.should.equal("Identifier");
-        token.value.should.equal("baz");
+        token.name.should.equal("baz");
     });
     
     test("Missing source argument, or source and file options, should throw an Error", function () {
