@@ -108,7 +108,7 @@ suite("Infuser Speed Tests", function () {
     });
     
     test('Infuser - Extract', function () {
-        var insertions = new DefinesExtract({});
+        var insertions = new DefinesExtract({ FOO: 'foo' });
         infuser.use(insertions);
         infuser.run(srcfile);
     });
