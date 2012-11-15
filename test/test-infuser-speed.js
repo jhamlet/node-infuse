@@ -3,8 +3,8 @@
 var Infuser = require('infuse/infuser'),
     Ast     = require('infuse/ast'),
     childKeys = require('infuse/ast/node/child-keys'),
-    Extract = require('infuse/extract'),
-    DefinesExtract = require('infuse/extracts/definitions'),
+    Infusion = require('infuse/infusion'),
+    DefinesInfusion = require('infuse/infusions/definitions'),
     Esprima = require('esprima'),
     FS      = require('fs'),
     wrapNode = require('infuse/ast/node'),
@@ -91,7 +91,7 @@ suite("Infuser Speed Tests", function () {
         console.log("%s nodes: %sms", count, Date.now() - then);
     });
 
-    test('Infuser - Raw object used as extract', function () {
+    test('Infuser - Raw object used as infusion', function () {
         var seen = false;
         
         infuser.use({
@@ -107,8 +107,8 @@ suite("Infuser Speed Tests", function () {
         seen.should.equal(true);
     });
     
-    test('Infuser - Extract', function () {
-        var definitions = new DefinesExtract({ FOO: 'foo' });
+    test('Infuser - Infusion', function () {
+        var definitions = new DefinesInfusion({ FOO: 'foo' });
         infuser.use(definitions);
         infuser.run(srcfile);
     });

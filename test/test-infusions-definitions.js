@@ -1,18 +1,18 @@
 /*globals suite, setup, test */
 
 var Infuser         = require('infuse/infuser'),
-    DefinesExtract  = require('infuse/extracts/definitions'),
-    srcfile         = 'test-src/extracts-definitions.js'
+    DefinesInfusion = require('infuse/infusions/definitions'),
+    srcfile         = 'test-src/infusions-definitions.js'
 ;
 
-suite('Extract - Definitions', function () {
+suite('Infusion - Definitions', function () {
     
     test('Simple replacement', function () {
         var infuser = new Infuser(),
             ast
         ;
         
-        infuser.use(new DefinesExtract({
+        infuser.use(new DefinesInfusion({
             INFUSE_FOO: 'foo'
         }));
         
@@ -30,7 +30,7 @@ suite('Extract - Definitions', function () {
             ast
         ;
         
-        infuser.use(new DefinesExtract(obj));
+        infuser.use(new DefinesInfusion(obj));
         
         ast = infuser.run(srcfile);
         ast.subject.body[0].declarations[0].id.name.should.equal('foo');
@@ -52,7 +52,7 @@ suite('Extract - Definitions', function () {
             ast
         ;
         
-        infuser.use(new DefinesExtract(obj));
+        infuser.use(new DefinesInfusion(obj));
         
         ast = infuser.run(srcfile);
         ast.subject.body[0].declarations[0].id.name.should.equal('foo');
@@ -69,7 +69,7 @@ suite('Extract - Definitions', function () {
             ast
         ;
         
-        infuser.use(new DefinesExtract(obj));
+        infuser.use(new DefinesInfusion(obj));
         
         ast = infuser.run(srcfile);
         ast.subject.body[0].declarations[1].id.name.should.equal('baz');
@@ -88,7 +88,7 @@ suite('Extract - Definitions', function () {
             ast
         ;
         
-        infuser.use(new DefinesExtract(obj));
+        infuser.use(new DefinesInfusion(obj));
         
         ast = infuser.run(srcfile);
         ast.subject.body[0].declarations[2].id.name.should.equal('bar');
@@ -105,7 +105,7 @@ suite('Extract - Definitions', function () {
             ast
         ;
         
-        infuser.use(new DefinesExtract(obj));
+        infuser.use(new DefinesInfusion(obj));
         
         (function () {
             ast = infuser.run(srcfile);
@@ -126,7 +126,7 @@ suite('Extract - Definitions', function () {
             ast
         ;
         
-        infuser.use(new DefinesExtract(obj));
+        infuser.use(new DefinesInfusion(obj));
         
         ast = infuser.run(srcfile);
         

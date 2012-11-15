@@ -1,13 +1,13 @@
 /*globals suite, setup, test */
 
-var Extract = require('infuse/extract');
+var Infusion = require('infuse/infusion');
 
-suite('Extract', function () {
+suite('Infusion', function () {
     
     test('Rules and events are prototype linked', function () {
-        var Vanilla, Chamomile, extract;
+        var Vanilla, Chamomile, infusion;
         // Setup
-        Vanilla = Extract.derive({
+        Vanilla = Infusion.derive({
             rules: {
                 'Rule A': function () {
                     return 'a';
@@ -45,18 +45,18 @@ suite('Extract', function () {
             }
         });
         
-        extract = new Chamomile();
+        infusion = new Chamomile();
         // test
-        extract.should.have.ownProperty('rules');
-        extract.should.have.ownProperty('events');
-        extract.rules['Rule A']().should.equal('a');
-        extract.rules['Rule B']().should.equal('b');
-        extract.rules['Rule C']().should.not.equal('c');
-        extract.rules['Rule C']().should.equal('C');
-        extract.events['Event A']().should.equal('a');
-        extract.events['Event B']().should.equal('b');
-        extract.events['Event C']().should.not.equal('c');
-        extract.events['Event C']().should.equal('C');
+        infusion.should.have.ownProperty('rules');
+        infusion.should.have.ownProperty('events');
+        infusion.rules['Rule A']().should.equal('a');
+        infusion.rules['Rule B']().should.equal('b');
+        infusion.rules['Rule C']().should.not.equal('c');
+        infusion.rules['Rule C']().should.equal('C');
+        infusion.events['Event A']().should.equal('a');
+        infusion.events['Event B']().should.equal('b');
+        infusion.events['Event C']().should.not.equal('c');
+        infusion.events['Event C']().should.equal('C');
     });
     
 });
