@@ -4,7 +4,7 @@ var Infuser = require('infuse/infuser'),
     Ast     = require('infuse/ast'),
     childKeys = require('infuse/ast/node/child-keys'),
     Extract = require('infuse/extract'),
-    DefinesExtract = require('infuse/extracts/insertions'),
+    DefinesExtract = require('infuse/extracts/definitions'),
     Esprima = require('esprima'),
     FS      = require('fs'),
     wrapNode = require('infuse/ast/node'),
@@ -108,8 +108,8 @@ suite("Infuser Speed Tests", function () {
     });
     
     test('Infuser - Extract', function () {
-        var insertions = new DefinesExtract({ FOO: 'foo' });
-        infuser.use(insertions);
+        var definitions = new DefinesExtract({ FOO: 'foo' });
+        infuser.use(definitions);
         infuser.run(srcfile);
     });
     

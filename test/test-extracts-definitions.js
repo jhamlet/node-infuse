@@ -1,11 +1,11 @@
 /*globals suite, setup, test */
 
 var Infuser         = require('infuse/infuser'),
-    DefinesExtract  = require('infuse/extracts/insertions'),
-    srcfile         = 'test-src/extracts-insertions.js'
+    DefinesExtract  = require('infuse/extracts/definitions'),
+    srcfile         = 'test-src/extracts-definitions.js'
 ;
 
-suite('Extract - Insertions', function () {
+suite('Extract - Definitions', function () {
     
     test('Simple replacement', function () {
         var infuser = new Infuser(),
@@ -77,7 +77,7 @@ suite('Extract - Insertions', function () {
         ast.subject.body[0].declarations[1].init.value.should.equal('baz');
     });
     
-    test('Call function replacement with nested insertions', function () {
+    test('Call function replacement with nested definitions', function () {
         var infuser = new Infuser(),
             obj = {
                 INFUSE_FOO: 'foo',
@@ -112,7 +112,7 @@ suite('Extract - Insertions', function () {
         }).should.throw();
     });
     
-    test('Call Function with nested Call Function with nested define', function () {
+    test('Call Function with nested Call Function with nested definitions', function () {
         var infuser = new Infuser(),
             obj = {
                 INFUSE_FOO: 'foo',
