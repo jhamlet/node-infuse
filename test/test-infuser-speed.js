@@ -8,8 +8,8 @@ var Infuser = require('infuse/infuser'),
     Esprima = require('esprima'),
     FS      = require('fs'),
     wrapNode = require('infuse/ast/node'),
-    // srcfile = 'test-src/underscore.js'
-    srcfile = '/Users/jhamlet/Desktop/sample.js'
+    srcfile = 'test-src/underscore.js'
+    // srcfile = '/Users/jhamlet/Desktop/sample.js'
 ;
 
 suite("Infuser Speed Tests", function () {
