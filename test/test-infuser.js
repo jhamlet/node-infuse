@@ -25,7 +25,7 @@ suite('Infuser', function () {
                 };
                 
                 infuser.use({ events: events });
-                infuser.run(srcfile);
+                infuser.run(new Ast({file: srcfile}));
                 
                 fired.should.be.above(0);
             });
@@ -45,7 +45,7 @@ suite('Infuser', function () {
                 };
                 
                 infuser.use({ events: events });
-                infuser.run(srcfile);
+                infuser.run(new Ast({file: srcfile}));
                 
                 // console.log(fired);
                 fired.should.be.above(25);
@@ -68,7 +68,7 @@ suite('Infuser', function () {
                 }
             });
 
-            infuser.run(srcfile);
+            infuser.run(new Ast({file: srcfile}));
 
             seen.should.equal(10);
         });
@@ -88,7 +88,7 @@ suite('Infuser', function () {
                 }
             });
 
-            infuser.run(srcfile);
+            infuser.run(new Ast({file: srcfile}));
 
             seen.should.equal(3);
         });
@@ -115,7 +115,7 @@ suite('Infuser', function () {
                 }
             });
 
-            infuser.run(srcfile);
+            infuser.run(new Ast({file: srcfile}));
 
             bareSeen.should.equal(1);
             totalSeen.should.equal(2);
@@ -134,7 +134,7 @@ suite('Infuser', function () {
                 }
             });
 
-            infuser.run(srcfile);
+            infuser.run(new Ast({file: srcfile}));
 
             seen.should.equal(1);
         });
@@ -152,7 +152,7 @@ suite('Infuser', function () {
                 }
             });
 
-            infuser.run(srcfile);
+            infuser.run(new Ast({file: srcfile}));
 
             seen.should.equal(1);
         });
@@ -176,7 +176,7 @@ suite('Infuser', function () {
                 },
                 'start': function (infuser) {
                     infuser.file.should.equal(srcfile);
-                    infuser.run(subfile);
+                    infuser.run(new Ast({file: subfile}));
                     infuser.file.should.equal(srcfile);
                 },
                 'complete': function (infuser) {
@@ -200,7 +200,7 @@ suite('Infuser', function () {
             fired.node.should.equal(true, 'did not find the CallExpression');
         });
         
-        infuser.run(srcfile);
+        infuser.run(new Ast({file: srcfile}));
     });
     
     test('Modified nodes are re-traversed', function () {
@@ -226,7 +226,7 @@ suite('Infuser', function () {
             }
         });
         
-        ast = infuser.run('test-src/infuser-b.js');
+        ast = infuser.run(new Ast({ file: 'test-src/infuser-b.js'}));
         
         ast.source.should.equal('var fooBaz = "foo";');
     });

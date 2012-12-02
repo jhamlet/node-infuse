@@ -103,14 +103,14 @@ suite("Infuser Speed Tests", function () {
             }
         });
         
-        infuser.run(srcfile);
+        infuser.run(new Ast({file: srcfile}));
         seen.should.equal(true);
     });
     
     test('Infuser - Infusion', function () {
         var definitions = new DefinesInfusion({ FOO: 'foo' });
         infuser.use(definitions);
-        infuser.run(srcfile);
+        infuser.run(new Ast({file: srcfile}));
     });
     
 });

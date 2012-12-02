@@ -1,6 +1,7 @@
 /*globals suite, setup, test */
 
 var Infuser         = require('infuse/infuser'),
+    Ast             = require('infuse/ast'),
     DefinesInfusion = require('infuse/infusions/definitions'),
     srcfile         = 'test-src/infusions-definitions.js'
 ;
@@ -16,7 +17,7 @@ suite('Infusion - Definitions', function () {
             INFUSE_FOO: 'foo'
         }));
         
-        ast = infuser.run(srcfile);
+        ast = infuser.run(new Ast({file: srcfile}));
         
         ast.subject.body[0].declarations[0].id.name.should.equal('foo');
         ast.subject.body[0].declarations[0].init.value.should.equal('foo');
@@ -32,7 +33,8 @@ suite('Infusion - Definitions', function () {
         
         infuser.use(new DefinesInfusion(obj));
         
-        ast = infuser.run(srcfile);
+        ast = infuser.run(new Ast({file: srcfile}));
+        
         ast.subject.body[0].declarations[0].id.name.should.equal('foo');
         ast.subject.body[0].declarations[0].init.type.should.equal('ArrayExpression');
         
@@ -54,7 +56,8 @@ suite('Infusion - Definitions', function () {
         
         infuser.use(new DefinesInfusion(obj));
         
-        ast = infuser.run(srcfile);
+        ast = infuser.run(new Ast({file: srcfile}));
+        
         ast.subject.body[0].declarations[0].id.name.should.equal('foo');
         ast.subject.body[0].declarations[0].init.type.should.equal('FunctionExpression');
     });
@@ -71,7 +74,8 @@ suite('Infusion - Definitions', function () {
         
         infuser.use(new DefinesInfusion(obj));
         
-        ast = infuser.run(srcfile);
+        ast = infuser.run(new Ast({file: srcfile}));
+        
         ast.subject.body[0].declarations[1].id.name.should.equal('baz');
         ast.subject.body[0].declarations[1].init.type.should.equal('Literal');
         ast.subject.body[0].declarations[1].init.value.should.equal('baz');
@@ -90,7 +94,8 @@ suite('Infusion - Definitions', function () {
         
         infuser.use(new DefinesInfusion(obj));
         
-        ast = infuser.run(srcfile);
+        ast = infuser.run(new Ast({file: srcfile}));
+        
         ast.subject.body[0].declarations[2].id.name.should.equal('bar');
         ast.subject.body[0].declarations[2].init.type.should.equal('Literal');
         ast.subject.body[0].declarations[2].init.value.should.equal('foo-bar');
@@ -108,7 +113,7 @@ suite('Infusion - Definitions', function () {
         infuser.use(new DefinesInfusion(obj));
         
         (function () {
-            ast = infuser.run(srcfile);
+            ast = infuser.run(new Ast({file: srcfile}));
         }).should.throw();
     });
     
@@ -128,7 +133,7 @@ suite('Infusion - Definitions', function () {
         
         infuser.use(new DefinesInfusion(obj));
         
-        ast = infuser.run(srcfile);
+        ast = infuser.run(new Ast({file: srcfile}));
         
         ast.subject.body[0].declarations[3].id.name.should.equal('barBaz');
         ast.subject.body[0].declarations[3].init.type.should.equal('Literal');
