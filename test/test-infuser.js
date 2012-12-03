@@ -168,25 +168,25 @@ suite('Infuser', function () {
             events: {
                 'begin': function (infuser) {
                     fired.begin = true;
-                    infuser.file.should.equal(subfile);
+                    infuser.ast.file.should.equal(subfile);
                 },
                 'end': function (infuser) {
                     fired.end = true;
-                    infuser.file.should.equal(subfile);
+                    infuser.ast.file.should.equal(subfile);
                 },
                 'start': function (infuser) {
-                    infuser.file.should.equal(srcfile);
+                    infuser.ast.file.should.equal(srcfile);
                     infuser.run(new Ast({file: subfile}));
-                    infuser.file.should.equal(srcfile);
+                    infuser.ast.file.should.equal(srcfile);
                 },
                 'complete': function (infuser) {
-                    infuser.file.should.equal(srcfile);
+                    infuser.ast.file.should.equal(srcfile);
                 }
             },
             rules: {
                 'fun.id > id[name=fooBar]': function (node, infuser) {
                     fired.node = true;
-                    infuser.file.should.equal(subfile);
+                    infuser.ast.file.should.equal(subfile);
                 }
             }
         });
