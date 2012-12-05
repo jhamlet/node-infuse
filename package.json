@@ -24,17 +24,17 @@
         "infuse": "./bin/infuse"
     },
     "dependencies": {
-        "esprima":      ">=1.0.x",
-        "escodegen":    ">=0.0.x",
-        "commander":    ">=1.1.x",
-        "resolve":      ">=0.2.x",
-        "proteus":      ">=0.0.x"
+        "esprima":      "=1.0.x",
+        "escodegen":    "=0.0.x",
+        "commander":    "=1.1.x",
+        "resolve":      "=0.2.x",
+        "proteus":      "=0.1.x"
     },
     "devDependencies": {
-        "mocha":    ">=1.7.x",
-        "should":   ">=1.2.x",
-        "sake":     ">=0.1.x",
-        "ejs":      ">=0.8.x"
+        "mocha":        "=1.7.x",
+        "should":       "=1.2.x",
+        "sake":         "=0.1.x",
+        "ejs":          "=0.8.x"
     },
     "bundledDependencies": [
         "infuse"

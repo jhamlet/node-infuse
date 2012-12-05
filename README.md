@@ -28,42 +28,28 @@ Command Line Usage
 ~~~
 % infuse -h
 
-Usage: infuse INPUT_PATH OUTPUT_PATH [options]
+  Usage: infuse [options] &lt;INPUT_PATH&gt; [OUTPUT_PATH]
 
-INPUT_PATH     File or directory to read.
-OUTPUT_PATH     File or directory to write to. If not specified, write to STDOUT.
+  Options:
 
-Options:
-   -N, --no-minify               Do not minify the output. Essentially, set `beautify` for
-                                 the UglifyJS output.
-   -D, --define SYMBOL[=VALUE]   Replace all instances of the specified SYMBOL with VALUE.
-                                 If VALUE is not given, SYMBOL will be set to true.
-                                 Otherwise, VALUE will be a JSON parsed value, or plain
-                                 string. Can be specified multiple times.
-   -d, --define-module NAME      Will load the NAMEd module (as per require()) and 'define'
-                                 all exported properties. Can be specified multiple times.
-   -E, --embed                   Embed the infused modules as strings in the final output,
-                                 and lazy-evaluate them when required.
-   -R, --reserved WORD           A comma-delimited list of reserved words that should NOT be
-                                 mangled. Can be specified multiple times.
-   -L, --node-lib PATH           PATH to your local directory of node builtin modules. These
-                                 are used to resolve requires for 'core' modules (not
-                                 suggested). Can be specified multiple times, and each
-                                 directory will be tried.
-   -i, --infuse PATH             Pre-infuse with PATH. These files will be infused into the
-                                 final output and will be automatically 'de-fused' before
-                                 the INPUT_PATH executes. Can be specified multiple times.
-   -I, --dump-infusions          Print all the paths 'required' by INPUT_PATH (and all other
-                                 required files) to STDOUT and exit.
-   -A, --dump-ast                Dump out the generated Abstract Syntax Tree and exit.
-   -V, --version                 Print the version information and exit.
-   -h, --help                    Print this and exit.
+    -h, --help                     output usage information
+    -V, --version                  output the version number
+    -c, --comments                 preserve comments in the source files
+    -D, --define &lt;SYMBOL&gt;[=VALUE]  replace the specified SYMBOL(s) with VALUE [*]
+    -d, --definitions &lt;NAME&gt;       replace all exported properties from NAME module [*]
+    -A, --dump-ast                 output the JSON for the generated AST
+    -M, --dump-modules             output the list of the required modules
+    -e, --embed                    embed all required modules as strings
+    -i, --infusion &lt;NAME&gt;          add NAME module as an infusion [*]
+    -m, --minify [NAME]            minify output using NAME minifier ['uglify']
+    -n, --nodelib &lt;PATH&gt;           path to the local node core modules directory [*]
+    -p, --pre-process &lt;NAME&gt;       run the INPUT_PATH through NAME processor before infusing [*]
+    -r, --require &lt;NAME&gt;           include NAME module as an automatic require [*]
+    -R, --no-requires              do not process require statements
 
-NOTES:
-If OUTPUT_PATH is a directory then each file from INPUT_PATH will be infused and placed in
-OUTPUT_PATH. If not a directory OUTPUT_PATH is assumed to be a file, and all files from INPUT_PATH
-will be infused and combined into OUTPUT_PATH (as '-i, --infuse').
+  Additional Usage Information:
 
+    [*]   option can be specified multiple times
 ~~~
 
 
@@ -72,11 +58,11 @@ will be infused and combined into OUTPUT_PATH (as '-i, --infuse').
 These are installed when **infuse** is installed.
 
 ~~~
-uglify-js: >=1.3.x
-nomnom:    >=1.5.x
-resolve:   >=0.2.x
-proteus:   >=0.0.x
-wordwrap:  >=0.0.2
+esprima:   =1.0.x
+escodegen: =0.0.x
+commander: =1.1.x
+resolve:   =0.2.x
+proteus:   =0.1.x
 ~~~
 
 
@@ -85,10 +71,10 @@ wordwrap:  >=0.0.2
 Installed when you run `npm link` in the package directory.
 
 ~~~
-mocha:      >=0.3.x
-should:     >=0.5.x
-sake:       >=0.1.x
-underscore: >=1.3.x
+mocha:  =1.7.x
+should: =1.2.x
+sake:   =0.1.x
+ejs:    =0.8.x
 ~~~
 
 
@@ -263,27 +249,27 @@ Report an Issue
 License
 -------
 
-> Copyright (c) 2012 Jerry Hamlet <jerry@hamletink.com>
-> 
-> Permission is hereby granted, free of charge, to any person
-> obtaining a copy of this software and associated documentation
-> files (the "Software"), to deal in the Software without
-> restriction, including without limitation the rights to use,
-> copy, modify, merge, publish, distribute, sublicense, and/or sell
-> copies of the Software, and to permit persons to whom the
-> Software is furnished to do so, subject to the following
-> conditions:
-> 
-> The above copyright notice and this permission notice shall be
-> included in all copies or substantial portions of the Software.
-> 
-> The Software shall be used for Good, not Evil.
-> 
-> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-> EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-> OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-> NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-> HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-> WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-> FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-> OTHER DEALINGS IN THE SOFTWARE.
+&gt; Copyright (c) 2012 Jerry Hamlet &lt;jerry@hamletink.com&gt;
+&gt; 
+&gt; Permission is hereby granted, free of charge, to any person
+&gt; obtaining a copy of this software and associated documentation
+&gt; files (the &quot;Software&quot;), to deal in the Software without
+&gt; restriction, including without limitation the rights to use,
+&gt; copy, modify, merge, publish, distribute, sublicense, and/or sell
+&gt; copies of the Software, and to permit persons to whom the
+&gt; Software is furnished to do so, subject to the following
+&gt; conditions:
+&gt; 
+&gt; The above copyright notice and this permission notice shall be
+&gt; included in all copies or substantial portions of the Software.
+&gt; 
+&gt; The Software shall be used for Good, not Evil.
+&gt; 
+&gt; THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+&gt; EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+&gt; OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+&gt; NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+&gt; HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+&gt; WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+&gt; FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+&gt; OTHER DEALINGS IN THE SOFTWARE.

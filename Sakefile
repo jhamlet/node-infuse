@@ -1,95 +1,44 @@
-/*globals FileList, CLEAN, CLOBBER, desc, task, directory, write, file, sh, read */
+/*globals FileList, CLEAN, CLOBBER, desc, task, directory, write, fileSync, log, sh, read */
 
-var infuse      = require("infuse"),
-    FS          = require("fs"),
-    Path        = require("path"),
-    infuse      = require("infuse"),
-    examplesDir = "examples"
-;
+var infuse      = require('infuse'),
+    FS          = require('fs'),
+    Path        = require('path'),
+    infuse      = require('infuse')
 
-sake.options.synchronous = true;
+require('sake/clobber');
 
-require("sake/clobber");
-
-desc("Generate the example files.");
-task("examples");
-
-FS.readdirSync(examplesDir).forEach(function (name) {
-    var dirName     = Path.join(examplesDir, name),
-        inputPath   = Path.join(dirName, "my-script.js"),
-        // --define-module argument(s) that are relative to the current
-        // working directory need to be prefixed with "./" so node can find
-        // them when required.
-        modulePath  = "./" + Path.join(dirName, "my-defines.js"),
-        prereqs     = new FileList(inputPath, modulePath)
-    ;
-    
-    if (!Path.existsSync(inputPath)) {
-        return;
-    }
-    // We dump any infusion paths the input file may pull in, so we can add
-    // them to the list of prerequisites for the file task (if they change,
-    // rebuild the outputPath)
-    prereqs.include(
-        infuse(
-            inputPath,
-            {dumpPaths: true}
-        ).split("\n").filter(Boolean)
-    );
-
-    // Generate the four variations of the files: minified, embedded and
-    // un-minified, and embedded and un-minified.
-    [ [], ["-E"], ["-N"], ["-E", "-N"] ].forEach(function (args) {
-        var extMap = {"-E": "embed", "-N": "nomin"},
-            outputPath = Path.join(dirName, args.reduce(function (t, c) {
-                return t + "." + extMap[c];
-            }, "script") + ".js"),
-            cmd = ["infuse", inputPath, outputPath, "-d", modulePath]
+desc('Generate the README.md documentation');
+fileSync(
+    'README.md',
+    ['README.ejs', 'package.json', 'Sakefile', 'node_modules/infuse/options.js'],
+    function (t) {
+        var ejs = require('ejs'),
+            pkgInfo = JSON.parse(read('package.json', 'utf8')),
+            tmpl = ejs.compile(read(t.prerequisites[0], 'utf8')),
+            tmplParams = {
+                pkg: pkgInfo,
+                license: FS.readFileSync('./LICENSE', 'utf8')
+            }
         ;
         
-        CLEAN.include(outputPath);
+        sh('./bin/infuse -h', function (err, txt) {
+            tmplParams.usage = txt.split('\n').slice(1, -2).join('\n');
+            write(t.name, tmpl(tmplParams), 'utf8');
+            log.info(t.name + ' generated');
+        });
+    }
+);
 
-        cmd = cmd.concat.apply(cmd, args);
+CLEAN.include('README.md');
 
-        file(outputPath, prereqs, function (t) { sh(cmd.join(" ")); });
-        
-        task("examples", [outputPath]);
+task('build', ['README.md']);
+
+desc('Run the mocha test suites');
+task('test', function (t) {
+    sh('mocha test/test-*', function (err, txt) {
+        log(txt);
+        t.done();
     });
-    
 });
 
-directory("examples/directories/output");
-task("directories-example", ["examples/directories/output"], function (t) {
-    sh("infuse examples/directories/ examples/directories/output/ -N -L ~/Sources/node/lib");
-});
-task("directories-example", function (t) {
-    sh("infuse examples/directories/ examples/directories/output/directories.js -N -L ~/Sources/node/lib");
-});
-CLEAN.include("examples/directories/output/*");
-CLOBBER.include("examples/directories/output");
-task("dir-examples", ["directories-example"]);
-
-
-desc("Generate the README.md documentation");
-file("README.md", ["README.tmpl", "package.json", "Sakefile", "lib/options.js"], function (t) {
-    var _ = require("underscore"),
-        pkgInfo = JSON.parse(read("package.json", "utf8")),
-        tmpl = _.template(read(t.prerequisites[0], "utf8")),
-        tmplParams = {
-            pkg: pkgInfo,
-            license: FS.readFileSync("./LICENSE", "utf8"),
-            usage: ""
-        }
-    ;
-    
-    sh("./bin/infuse -h", function (err, txt) {
-        tmplParams.usage = txt.split("\n").slice(1, -2).join("\n");
-        write(t.name, tmpl(tmplParams), "utf8");
-        log.info(t.name + " generated.");
-    });
-    
-});
-CLEAN.include("README.md");
-
-task("build", ["README.md"]);
-task("default", ["build"]);
+task('default', ['test', 'build']);
