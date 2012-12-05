@@ -3,7 +3,7 @@
 var infuse      = require('infuse'),
     FS          = require('fs'),
     Path        = require('path'),
-    infuse      = require('infuse')
+    infuse      = require('infuse');
 
 require('sake/clobber');
 
@@ -36,8 +36,13 @@ task('build', ['README.md']);
 desc('Run the mocha test suites');
 task('test', function (t) {
     sh('mocha test/test-*', function (err, txt) {
-        log(txt);
-        t.done();
+        if (err) {
+            t.abort(txt, err);
+        }
+        else {
+            log(txt);
+            t.done();
+        }
     });
 });
 
