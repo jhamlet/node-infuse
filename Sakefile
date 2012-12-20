@@ -37,10 +37,10 @@ desc('Run the mocha test suites');
 task('test', function (t) {
     sh('mocha test/test-*', function (err, txt) {
         if (err) {
-            t.abort(txt, err);
+            t.abort('tests failed', err);
         }
         else {
-            log(txt);
+            log.info('tests passed');
             t.done();
         }
     });
