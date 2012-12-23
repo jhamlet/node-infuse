@@ -3,7 +3,7 @@
 var parse       = require("infuse/ast/parse"),
     stringify   = require("infuse/ast/stringify"),
     should      = require("should"),
-    source      = "var foo = \"foo\";",
+    source      = "var foo = 'foo';",
     ast
 ;
 

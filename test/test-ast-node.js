@@ -18,11 +18,11 @@ suite("AST - NodeWrapper", function () {
     test("Basic wrapper functionality", function () {
         var node = nodeWrapper(ast);
         
-        node.update.should.be.a("function");
+        node.alter.should.be.a("function");
         
         node.getChildNodes().length.should.equal(1);
 
-        node.toString().should.equal("var foo = \"foo\";");
+        node.toString().should.equal("var foo = 'foo';");
     });
     
     test("Stringify sub-node", function () {
@@ -38,7 +38,7 @@ suite("AST - NodeWrapper", function () {
         (child.parent.parent.parent === node).should.equal(true);
 
         // stringify
-        child.toString().should.equal("\"foo\"");
+        child.toString().should.equal("'foo'");
     });
     
     test("Accessing child properties should propagate from subject", function () {

@@ -212,13 +212,13 @@ suite('Infuser', function () {
         infuser.use({
             rules: {
                 'id[name=FOO]': function (node, infuser) {
-                    node.update({
+                    node.alter({
                         type: 'Literal',
                         value: 'foo'
                     });
                 },
                 'id[name=BAZ]': function (node, infuser) {
-                    node.update({
+                    node.alter({
                         type: 'Identifier',
                         name: 'FOO'
                     });
@@ -228,6 +228,6 @@ suite('Infuser', function () {
         
         ast = infuser.run(new Ast({ file: 'test-src/infuser-b.js'}));
         
-        ast.source.should.equal('var fooBaz = "foo";');
+        ast.source.should.equal('var fooBaz = \'foo\';');
     });
 });

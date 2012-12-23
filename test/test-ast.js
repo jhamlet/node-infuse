@@ -3,7 +3,7 @@
 var Ast = require('infuse/ast'),
     FS  = require('fs'),
     should = require('should'),
-    source  = 'var foo = "foo";',
+    source  = 'var foo = \'foo\';',
     filepath = 'test-src/ast.js',
     ast
 ;

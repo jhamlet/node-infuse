@@ -1,1 +1,1 @@
-var baz = "baz";
+var baz = 'baz';
