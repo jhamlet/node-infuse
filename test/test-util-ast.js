@@ -17,11 +17,12 @@ suite("AST Utils", function () {
                 }
             ],
             ast = astUtil.valueToAst(list),
-            iter = new Iterator(ast)
+            iter = new Iterator(ast),
+            val
         ;
         
         // console.log(SysUtil.inspect(ast, false, 100));
-
+        
         iter.getCurrent().name.should.equal("array");
         iter.next();
         iter.getCurrent()[1].should.be.an.instanceof(Array);
@@ -40,6 +41,11 @@ suite("AST Utils", function () {
         iter.getCurrent().name.should.equal("string");
         iter.getCurrent()[1].should.equal("foo");
         
+        val = astUtil.astToValue(ast);
+        
+        val[0].should.equal('a');
+        val[1].should.equal(1);
+        val[2].foo.should.equal('foo');
     });
     
     test("Object to AST", function () {
@@ -50,10 +56,13 @@ suite("AST Utils", function () {
                 }
             },
             ast = astUtil.valueToAst(obj),
-            iter = new Iterator(ast)
+            iter = new Iterator(ast),
+            val = astUtil.astToValue(ast)
         ;
         
-        // console.log(SysUtil.inspect(ast, false, 100));
+        val.list.should.eql(['A', 2, 'c', 4]);
+        (typeof val.foo).should.equal('function');
+        val.foo().should.equal('foo');
     });
     
 });
