@@ -1,5 +1,5 @@
 Sakefile*
-README.tmpl
-/examples
-/lib
-/lib.bak
+src/tmpl/
+examples/
+test/
+test-src/

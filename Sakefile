@@ -10,7 +10,7 @@ require('sake/clobber');
 desc('Generate the README.md documentation');
 fileSync(
     'README.md',
-    ['README.ejs', 'package.json', 'Sakefile', 'node_modules/infuse/options.js'],
+    ['src/tmpl/README.ejs', 'package.json', 'Sakefile', 'node_modules/infuse/options.js'],
     function (t) {
         var ejs = require('ejs'),
             pkgInfo = JSON.parse(read('package.json', 'utf8')),

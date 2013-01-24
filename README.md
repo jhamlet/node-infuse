@@ -28,28 +28,32 @@ Command Line Usage
 ~~~
 % infuse -h
 
-  Usage: infuse [options] &lt;INPUT_PATH&gt; [OUTPUT_PATH]
+  Usage: infuse [options] <INPUT_PATH> [OUTPUT_PATH]
 
   Options:
 
     -h, --help                     output usage information
     -V, --version                  output the version number
     -c, --comments                 preserve comments in the source files
-    -D, --define &lt;SYMBOL&gt;[=VALUE]  replace the specified SYMBOL(s) with VALUE [*]
-    -d, --definitions &lt;NAME&gt;       replace all exported properties from NAME module [*]
+    -D, --define <SYMBOL>[=VALUE]  replace the specified SYMBOL(s) with VALUE [*]
+    -d, --definitions <NAME>       replace all exported properties from NAME module [*]
     -A, --dump-ast                 output the JSON for the generated AST
     -M, --dump-modules             output the list of the required modules
     -e, --embed                    embed all required modules as strings
-    -i, --infusion &lt;NAME&gt;          add NAME module as an infusion [*]
-    -m, --minify [NAME]            minify output using NAME minifier ['uglify']
-    -n, --nodelib &lt;PATH&gt;           path to the local node core modules directory [*]
-    -p, --pre-process &lt;NAME&gt;       run the INPUT_PATH through NAME processor before infusing [*]
-    -r, --require &lt;NAME&gt;           include NAME module as an automatic require [*]
+    -i, --infusion <NAME>          add NAME module as an infusion [*]
+    -m, --minify <NAME>            minify output using NAME minifier
+    --minify-opts <ARGS>           string of arguments to pass on to the minify plugin
+    -n, --nodelib <PATH>           path to the local node core modules directory [*]
     -R, --no-requires              do not process require statements
 
   Additional Usage Information:
-
-    [*]   option can be specified multiple times
+    
+    [*] option can be specified multiple times
+    
+    If OUTPUT_PATH is not specified the generated output is sent to STDOUT.
+    
+    Supported minifiers: uglifyjs
+    Supported pre-processor file extensions: .coffee
 ~~~
 
 
@@ -249,27 +253,27 @@ Report an Issue
 License
 -------
 
-&gt; Copyright (c) 2012 Jerry Hamlet &lt;jerry@hamletink.com&gt;
-&gt; 
-&gt; Permission is hereby granted, free of charge, to any person
-&gt; obtaining a copy of this software and associated documentation
-&gt; files (the &quot;Software&quot;), to deal in the Software without
-&gt; restriction, including without limitation the rights to use,
-&gt; copy, modify, merge, publish, distribute, sublicense, and/or sell
-&gt; copies of the Software, and to permit persons to whom the
-&gt; Software is furnished to do so, subject to the following
-&gt; conditions:
-&gt; 
-&gt; The above copyright notice and this permission notice shall be
-&gt; included in all copies or substantial portions of the Software.
-&gt; 
-&gt; The Software shall be used for Good, not Evil.
-&gt; 
-&gt; THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
-&gt; EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-&gt; OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-&gt; NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-&gt; HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-&gt; WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-&gt; FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-&gt; OTHER DEALINGS IN THE SOFTWARE.
+> Copyright (c) 2012 Jerry Hamlet <jerry@hamletink.com>
+> 
+> Permission is hereby granted, free of charge, to any person
+> obtaining a copy of this software and associated documentation
+> files (the "Software"), to deal in the Software without
+> restriction, including without limitation the rights to use,
+> copy, modify, merge, publish, distribute, sublicense, and/or sell
+> copies of the Software, and to permit persons to whom the
+> Software is furnished to do so, subject to the following
+> conditions:
+> 
+> The above copyright notice and this permission notice shall be
+> included in all copies or substantial portions of the Software.
+> 
+> The Software shall be used for Good, not Evil.
+> 
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+> EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+> OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+> NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+> HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+> WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+> FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> OTHER DEALINGS IN THE SOFTWARE.
