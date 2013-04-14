@@ -5,3 +5,4 @@ test/test.js
 examples/*/script.js
 examples/*/script.*.js
 examples/directories/output
+.DS_Store
