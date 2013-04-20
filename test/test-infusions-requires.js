@@ -15,21 +15,4 @@ suite('Infusions - Requires', function () {
         infuser.run(new Ast({ file: 'test-src/infusions-requires.js'}));
     });
     
-    test('resolveIt', function () {
-        var infuser = new Infuser();
-        infuser.use(new Requires({
-            resolve: function (name, startDir) {
-                return require('resolveit').sync(name, startDir);
-            }
-        }));
-        infuser.run(new Ast({ file: 'test-src/infusions-requires.js'}));
-    });
-    
-    test('no resolve function throws an error', function () {
-        var infusion;
-        
-        (function () {
-            infusion = new Requires();
-        }).should.throw()
-    });
 });

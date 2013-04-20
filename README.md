@@ -44,6 +44,7 @@ Command Line Usage
     -m, --minify <NAME>            minify output using NAME minifier
     --minify-opts <ARGS>           string of arguments to pass on to the minify plugin
     -n, --nodelib <PATH>           path to the local node core modules directory [*]
+    -r, --require <NAME>           include NAME module as an automatic require [*]
     -R, --no-requires              do not process require statements
 
   Additional Usage Information:
@@ -65,7 +66,7 @@ These are installed when **infuse** is installed.
 esprima:   =1.0.x
 escodegen: =0.0.x
 commander: =1.1.x
-resolve:   =0.2.x
+resolveit: =0.1.x
 proteus:   =0.1.x
 ~~~
 
@@ -253,7 +254,7 @@ Report an Issue
 License
 -------
 
-> Copyright (c) 2012 Jerry Hamlet <jerry@hamletink.com>
+> Copyright (c) 2013 Jerry Hamlet <jerry@hamletink.com>
 > 
 > Permission is hereby granted, free of charge, to any person
 > obtaining a copy of this software and associated documentation

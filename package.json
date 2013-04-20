@@ -27,7 +27,7 @@
         "esprima":      "=1.0.x",
         "escodegen":    "=0.0.x",
         "commander":    "=1.1.x",
-        "resolve":      "=0.2.x",
+        "resolveit":    "=0.1.x",
         "proteus":      "=0.1.x"
     },
     "devDependencies": {
